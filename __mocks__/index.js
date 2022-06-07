@@ -1,3 +1,5 @@
+global.WebSocket = function WebSocket() {};
+
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');
 

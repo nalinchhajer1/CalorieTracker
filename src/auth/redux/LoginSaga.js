@@ -1,6 +1,7 @@
-import {all, takeLatest, call, fork, put} from 'redux-saga/effects';
+import {all, call, put, takeLatest} from 'redux-saga/effects';
 import {TYPE_LOGIN} from './LoginType';
 import {
+  FIREBASE_CONSTANTS,
   GOOGLE_SIGN_IN_SCOPES,
   GOOGLE_WEB_CLIENT_ID,
   LOGIN_TYPE,
@@ -8,7 +9,8 @@ import {
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {changeLoginState} from './LoginAction';
 import auth from '@react-native-firebase/auth';
-import {NativeModules} from 'react-native';
+import reactotron from 'reactotron-react-native';
+import firestore from '@react-native-firebase/firestore';
 
 function* onGoogleSignInConfiguration() {
   GoogleSignin.configure({
@@ -20,40 +22,45 @@ function* onGoogleSignInConfiguration() {
 function* onGoogleLoginPressed() {
   try {
     yield call(GoogleSignin.hasPlayServices);
-    const userInfo = yield call(GoogleSignin.signIn);
-    const token = yield GoogleSignin.getTokens();
-    const result = yield call(
-      performGoogleLogin,
-      userInfo,
-      token.idToken,
-      token.accessToken,
-    );
+    yield call(GoogleSignin.signIn);
+    const result = yield call(performGoogleLogin);
     if (result) {
+      yield call(onSigninSuccess, result);
       yield put(changeLoginState(LOGIN_TYPE.USER_LOGGED_IN, result));
     }
-  } catch (e) {}
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
 }
 
-function* performGoogleLogin(userInfo, idToken, accessToken) {
+function* performGoogleLogin() {
   try {
-    // const {idToken, accessToken} = yield GoogleSignin.getTokens();
+    const {idToken, accessToken} = yield call(GoogleSignin.getTokens);
     const googleCredential = auth.GoogleAuthProvider.credential(
       idToken,
       accessToken,
     );
-    const {providerId, token, secret} = googleCredential;
 
-    const RNFBAuthModule = NativeModules.RNFBAuthModule;
-    const result = yield call(
-      RNFBAuthModule.signInWithCredential,
-      '[DEFAULT]',
-      providerId,
-      token,
-      secret,
-    );
-    return result;
+    return yield auth().signInWithCredential(googleCredential);
   } catch (e) {
+    reactotron.log(e.toString());
     return null;
+  }
+}
+
+function* onSigninSuccess(result) {
+  try {
+    const {user} = result;
+    const {displayName, email, uid} = user;
+    const usersCollection = firestore().collection(
+      FIREBASE_CONSTANTS.USER_COLLECTION,
+    );
+
+    yield usersCollection
+      .doc(uid)
+      .set({name: displayName, email: email}, {merge: true});
+  } catch (e) {
+    reactotron.log(e.toString());
   }
 }
 

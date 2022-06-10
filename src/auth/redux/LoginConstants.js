@@ -12,6 +12,10 @@ export const LOGIN_TYPE = {
   ADMIN_LOGGED_IN: 'ADMIN_LOGGED_IN',
 };
 
+export const FIREBASE_CONSTANTS = {
+  USER_COLLECTION: 'Users',
+};
+
 export function isUserLoggedIn(userState) {
   return (
     userState === LOGIN_TYPE.USER_LOGGED_IN ||

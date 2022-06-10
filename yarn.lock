@@ -1186,7 +1186,7 @@
     node-forge "^1.2.1"
     nullthrows "^1.1.1"
 
-"@expo/config-plugins@4.1.5", "@expo/config-plugins@^4.0.14", "@expo/config-plugins@^4.1.5", "@expo/config-plugins@~4.1.4":
+"@expo/config-plugins@4.1.5", "@expo/config-plugins@^4.0.14", "@expo/config-plugins@~4.1.4":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.5.tgz#9d357d2cda9c095e511b51583ede8a3b76174068"
   integrity sha512-RVvU40RtZt12HavuDAe+LDIq9lHj7sheOfMEHdmpJ/uTA8pgvkbc56XF6JHQD+yRr6+uhhb+JnAasGq49dsQbw==
@@ -1934,12 +1934,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
   integrity sha512-MvFHImmtlmE1kJZgZ9XaULm/OBuQ/AQWOCPr3NzYTUv2cCqyGwfFrealo5PS/fuL/InCGcfqK1k/1dZ+67Hjmg==
 
-"@react-native-firebase/app@^14.11.0":
-  version "14.11.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-14.11.0.tgz#41b1b7d41f51b6880ebad6a12ff87c85bcdab0d6"
-  integrity sha512-LzqgZNx+WcNGYRZG6LB9BkJAx4LE+LsbPF9p65TMSagWYd/iJafoXl4d6KWQeUMIFZQH7Ke/eJ/fIZkc+4eMRw==
+"@react-native-firebase/app@10.7.0":
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.7.0.tgz#db0cd77c2d5e83024797073256d471dc9b27085c"
+  integrity sha512-C8H90p7lf+ZIxA22lxypuA7uJOWRX4GLlll6EXZTnUXHNYaIM8zW8/RPHECJZRPYwisbe+2pIlDwFJjyiRM+Jw==
   dependencies:
-    "@expo/config-plugins" "^4.1.5"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
@@ -1947,6 +1946,11 @@
   version "10.7.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-10.7.0.tgz#492bb8f0dbfdf7143e7c63d3244355042d589922"
   integrity sha512-riycjQmoeZ56BiSMQibyXJwjUwHKeKOxC5nRXWUN5mnDP1d9hWbnN5qs+A1Pc68DKtoWDmfIeOJBC8xt28827A==
+
+"@react-native-firebase/firestore@10.7.0":
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-10.7.0.tgz#eb7ebb0ab9a192af1a7d448327b99a4a87d8a4c7"
+  integrity sha512-wDH78SdmDEdWebFqujinqTqfJMVDcx9W57cEzY09PQcmI5xjdalSyU4gj8AXDTB0718/kDK6C7nhzOHZOjln0w==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"

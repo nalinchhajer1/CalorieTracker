@@ -12,6 +12,8 @@ install! 'cocoapods',
 target 'CalorieTracker' do
   use_expo_modules!
   config = use_native_modules!
+  
+  pod 'GoogleSignIn'
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
 

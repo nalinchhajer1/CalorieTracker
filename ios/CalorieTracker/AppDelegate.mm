@@ -7,6 +7,7 @@
 #import <React/RCTConvert.h>
 
 #import <React/RCTAppSetupUtils.h>
+#import <Firebase.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -54,6 +55,14 @@
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+    FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
+  [FIRApp configureWithOptions:options];
+  
+  if ([FIRApp defaultApp] == nil) {
+      [FIRApp configure];
+    }
+  
   return YES;
 }
 

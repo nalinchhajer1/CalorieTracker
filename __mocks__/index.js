@@ -1,3 +1,5 @@
+import './react-native-firebase-mock';
+
 global.WebSocket = function WebSocket() {};
 
 jest.mock('react-native-reanimated', () => {
@@ -12,3 +14,15 @@ jest.mock('react-native-reanimated', () => {
 
 // Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
+jest.mock('@react-native-community/google-signin', () => {
+  return {
+    GoogleSignin: {
+      configure: jest.fn(),
+    },
+    statusCodes: jest.fn(),
+    GoogleSigninButton: jest.requireActual(
+      '@react-native-community/google-signin',
+    ).GoogleSigninButton,
+  };
+});

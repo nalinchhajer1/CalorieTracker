@@ -1,32 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Provider} from 'react-redux';
+import store from './src/calorie-tracker-app/core/store';
+import RootStackScreen from './src/calorie-tracker-app/AppNavigation';
 
-const RootStack = createNativeStackNavigator();
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen name="Home" component={HomeScreen} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStackScreen />
+      </NavigationContainer>
+    </Provider>
   );
-}
+};
 
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

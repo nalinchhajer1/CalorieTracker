@@ -12,6 +12,7 @@
     "reactotron": "adb reverse tcp:9090 tcp:9090"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/google-signin": "5.0.0",
     "@react-native-firebase/app": "10.7.0",
     "@react-native-firebase/auth": "10.7.0",

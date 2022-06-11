@@ -2,24 +2,24 @@ import React from 'react';
 import {SectionList, View, Text, SafeAreaView} from 'react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {MAX_CALORIE_LIMIT} from '../redux/CalorieTrackerConstants';
+import reactotron from 'reactotron-react-native';
 
 const FoodSectionList = ({section_data = [], style}) => {
   return (
     <SectionList
       sections={section_data}
       keyExtractor={(item, index) => item._path}
-      renderItem={section => <ListItem data={section} />}
+      renderItem={section => <FoodListItem data={section.item} />}
       renderSectionHeader={({section}) => <HeaderItem section={section} />}
     />
   );
 };
 
-const ListItem = ({data}) => {
-  const {item} = data;
+export const FoodListItem = ({data}) => {
   return (
     <View style={FoodSectionListStyles.foodItemContainer}>
-      <Text style={FoodSectionListStyles.foodItemText}>{item.name}</Text>
-      <Text style={FoodSectionListStyles.calorieItemText}>{item.calorie}</Text>
+      <Text style={FoodSectionListStyles.foodItemText}>{data.name}</Text>
+      <Text style={FoodSectionListStyles.calorieItemText}>{data.calorie}</Text>
     </View>
   );
 };

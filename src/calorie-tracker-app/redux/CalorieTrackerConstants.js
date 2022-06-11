@@ -25,7 +25,7 @@ export function convertDatesToUnixFormat(start_date, end_date) {
 }
 
 export function getMillis(dateString) {
-  return new Date(dateString + '.000Z').getTime();
+  return new Date(dateString).getTime();
 }
 
 export function getDateInUserDisplayFormat(timeInMillis) {

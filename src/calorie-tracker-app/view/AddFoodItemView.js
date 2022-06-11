@@ -8,6 +8,7 @@ import {
   findCalorieBurnout,
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
+import {FoodListItem} from './FoodSectionList';
 
 const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
   const [userText, setUserText] = useState('');
@@ -46,18 +47,18 @@ const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
               loggedInUserId,
             );
             addNewFoodItem(payload);
+            setCreatedFoodItems([...createdFoodItems, payload]);
           }
 
           setUserText('');
         }}
       />
-      <FlatList data={createdFoodItems} renderItem={ListItem} />
+      <FlatList
+        data={createdFoodItems}
+        renderItem={({item}) => <FoodListItem data={item} />}
+      />
     </SafeAreaView>
   );
-};
-
-const ListItem = () => {
-  return <View />;
 };
 
 const mapStateToProps = state => ({

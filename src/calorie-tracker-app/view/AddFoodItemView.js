@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, SafeAreaView, TextInput, Button, FlatList} from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
-import {foodItemPayload} from '../redux/CalorieTrackerConstants';
+import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {
   addNewFoodItem,
@@ -17,7 +17,7 @@ const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-          title="Done"
+          title={Strings.DONE}
           onPress={() => {
             navigation.goBack();
           }}
@@ -30,7 +30,7 @@ const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
     <SafeAreaView style={AddFoodItemStyles.container}>
       <TextInput
         style={AddFoodItemStyles.textEntry}
-        placeholder={'What did you eat for the day?'}
+        placeholder={Strings.MESSAGE_ADD_FOODITEM}
         onChangeText={text => {
           setUserText(text);
         }}

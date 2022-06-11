@@ -11,6 +11,7 @@ const AddFoodItemStyles = {
     elevation: 2,
     margin: 10,
     padding: 10,
+    fontSize: 16,
   },
 };
 

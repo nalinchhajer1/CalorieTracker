@@ -158,7 +158,7 @@ class DateRangePicker extends React.Component {
   }
 }
 DateRangePicker.defaultProps = {
-  theme: {markColor: '#00adf5', markTextColor: '#ffffff'},
+  theme: {markColor: '#ff6347', markTextColor: '#ffffff'},
 };
 
 const mapStateToProps = state => ({

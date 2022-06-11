@@ -6,10 +6,21 @@ const FoodItemStyles = {
     flexDirection: 'column',
   },
   addItemContainer: {
-    height: 40,
+    flexDirection: 'row',
+    margin: 10,
+    height: 80,
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   listContainer: {
     flex: 1,
+  },
+  addItemMessageText: {
+    elevation: 2,
+    margin: 10,
+    padding: 10,
+    flex: 1,
+    fontSize: 16,
   },
 };
 

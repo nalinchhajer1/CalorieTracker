@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Button, SectionList, View} from 'react-native';
+import {Button, SectionList, View, Text, Pressable} from 'react-native';
 import FoodItemStyles from './styles/FoodItemStyles';
 import {connect} from 'react-redux';
 import {findCalorieBurnout} from '../redux/CalorieTrackerAction';
-import {getCurrentDate} from '../redux/CalorieTrackerConstants';
+import {getCurrentDate, Strings} from '../redux/CalorieTrackerConstants';
 import firestore from '@react-native-firebase/firestore';
 import {FIREBASE_CONSTANTS} from '../../auth/redux/LoginConstants';
 import CalendarListStyles from './styles/CalendarListStyles';
@@ -40,30 +40,18 @@ const FoodItemList = ({
     return () => subscriber();
   }, [loggedInUserId]);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          title="C"
-          onPress={() => {
-            navigation.navigate('Calendar');
-          }}
-        />
-      ),
-    });
-  }, [navigation]);
-
   return (
-    <View styles={FoodItemStyles.container}>
-      <View styles={FoodItemStyles.addItemContainer}>
-        <Button
-          title={'Button to add'}
-          onPress={() => {
-            navigation.navigate('Create');
-          }}
-        />
-      </View>
-      <View styles={FoodItemStyles.listContainer}>
+    <View style={FoodItemStyles.container}>
+      <Pressable
+        style={FoodItemStyles.addItemContainer}
+        onPress={() => {
+          navigation.navigate('Create');
+        }}>
+        <Text style={FoodItemStyles.addItemMessageText}>
+          {Strings.MESSAGE_ADD_FOODITEM}
+        </Text>
+      </Pressable>
+      <View style={FoodItemStyles.listContainer}>
         <FoodSectionList
           style={CalendarListStyles.listContainer}
           section_data={calorieList}

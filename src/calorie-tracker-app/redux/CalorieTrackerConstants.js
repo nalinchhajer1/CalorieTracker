@@ -8,6 +8,15 @@ export const MAX_CALORIE_LIMIT = 2100;
 export const DAY_DATE_FORMAT = 'YYYY-MM-DD';
 export const USER_DAY_DATE_FORMAT = 'DD-MMM';
 
+export const Strings = {
+  MESSAGE_ADD_FOODITEM: 'What did you eat for the day?',
+  DONE: 'Done',
+  HOME_TAB: 'Home',
+  CALENDAR_TAB: 'Calendar',
+  SETTINGS_TAB: 'Settings',
+  CREATE: 'Create',
+};
+
 export function convertDatesToUnixFormat(start_date, end_date) {
   return {
     start_time: getMillis(start_date + 'T00:00:00'),

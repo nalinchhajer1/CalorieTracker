@@ -3,6 +3,7 @@ import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
 const initialState = {
   appInitialized: false,
   calorieList: null,
+  autoCompleteResult: null,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         calorieList: action.result,
+      };
+    case TYPE_CALORIE_TRACKER.UPDATE_AUTO_COMPLETE_RESULT:
+      return {
+        ...state,
+        autoCompleteResult: action.result,
       };
     default:
       return state;

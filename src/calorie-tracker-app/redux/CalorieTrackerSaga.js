@@ -1,11 +1,11 @@
 import {
   all,
+  call,
   put,
-  takeLatest,
   select,
   takeEvery,
+  takeLatest,
   takeLeading,
-  call,
 } from 'redux-saga/effects';
 import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
 import firestore from '@react-native-firebase/firestore';
@@ -18,10 +18,19 @@ import {
   convertDatesToUnixFormat,
   convertFirestoreObjectToFoodItemModal,
 } from './CalorieTrackerConstants';
-import {updateCalorieBurnoutValue} from './CalorieTrackerAction';
+import {
+  autoCompleteInitializeCompleted,
+  initializeAutoComplete,
+  setAutocompleteFoodItems,
+  updateCalorieBurnoutValue,
+} from './CalorieTrackerAction';
+import {AutocompleteTrie} from '../utils/AutocompleteTrie';
+
+let autoCompleteTrie = null;
 
 function* onAppInitialized() {
   yield put({type: TYPE_CALORIE_TRACKER.APP_INITIALIZED_COMPLETED});
+  yield put(initializeAutoComplete());
 }
 
 function* addFoodItem(action) {
@@ -113,6 +122,30 @@ function* getCalorieBurnOutForPeriodFromFirestore(action) {
   }
 }
 
+export function* setUpAutoComplete() {
+  try {
+    const nutritionData = require('../../../nutrition_trim.json');
+    autoCompleteTrie = new AutocompleteTrie();
+    autoCompleteTrie.setRoot(nutritionData);
+    yield put(autoCompleteInitializeCompleted());
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
+export function* performAutoCompleteText(action) {
+  try {
+    const {text} = action;
+    let result = [];
+    if (isValidElement(text) && text.length > 2) {
+      result = autoCompleteTrie.autoComplete(text);
+    }
+    yield put(setAutocompleteFoodItems(result));
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
 function* CalorieTrackerSaga() {
   yield all([
     takeLeading(TYPE_CALORIE_TRACKER.APP_INITIALIZED, onAppInitialized),
@@ -124,6 +157,14 @@ function* CalorieTrackerSaga() {
     takeEvery(
       TYPE_CALORIE_TRACKER.GET_CALORIE_BURNOUT_FROM_FIRESTORE,
       getCalorieBurnOutForPeriodFromFirestore,
+    ),
+    takeLeading(
+      TYPE_CALORIE_TRACKER.INITIALIZE_AUTO_COMPLETE,
+      setUpAutoComplete,
+    ),
+    takeLatest(
+      TYPE_CALORIE_TRACKER.PERFORM_AUTO_COMPLETE_TEXT,
+      performAutoCompleteText,
     ),
   ]);
 }

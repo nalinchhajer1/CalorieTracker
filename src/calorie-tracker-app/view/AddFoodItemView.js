@@ -5,12 +5,19 @@ import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {
   addNewFoodItem,
+  autoCompleteFoodItems,
   findCalorieBurnout,
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {FoodListItem} from './FoodSectionList';
 
-const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
+const AddFoodItemView = ({
+  navigation,
+  loggedInUserId,
+  addNewFoodItem,
+  autoCompleteFoodItems,
+  autoCompleteResult,
+}) => {
   const [userText, setUserText] = useState('');
   const [createdFoodItems, setCreatedFoodItems] = useState([]);
 
@@ -33,39 +40,79 @@ const AddFoodItemView = ({navigation, loggedInUserId, addNewFoodItem}) => {
         style={AddFoodItemStyles.textEntry}
         placeholder={Strings.MESSAGE_ADD_FOODITEM}
         onChangeText={text => {
+          autoCompleteFoodItems(text);
           setUserText(text);
         }}
         autoFocus
         blurOnSubmit={false}
         value={userText}
         onSubmitEditing={() => {
-          if (isValidElement(userText) && userText.length > 1) {
-            const payload = foodItemPayload(
-              new Date(),
-              userText,
-              10,
-              loggedInUserId,
-            );
-            addNewFoodItem(payload);
-            setCreatedFoodItems([...createdFoodItems, payload]);
-          }
-
+          saveFoodItem({
+            name: userText,
+            loggedInUserId,
+            setCreatedFoodItems,
+            createdFoodItems,
+          });
+          autoCompleteFoodItems('');
           setUserText('');
         }}
       />
-      <FlatList
-        data={createdFoodItems}
-        renderItem={({item}) => <FoodListItem data={item} />}
-      />
+      {autoCompleteResult && autoCompleteResult.length > 0 ? (
+        <FlatList
+          data={autoCompleteResult}
+          renderItem={({item}) => (
+            <FoodListItem
+              name={item['1']}
+              calorie={item['3']}
+              serving={item['2']}
+              data={item}
+              onItemClick={foodItem => {
+                saveFoodItem({
+                  name: foodItem['1'],
+                  calorie: foodItem['3'],
+                  loggedInUserId,
+                  setCreatedFoodItems,
+                  createdFoodItems,
+                });
+                autoCompleteFoodItems('');
+                setUserText('');
+              }}
+            />
+          )}
+        />
+      ) : (
+        <FlatList
+          data={createdFoodItems}
+          renderItem={({item}) => (
+            <FoodListItem data={item} name={item.name} calorie={item.calorie} />
+          )}
+        />
+      )}
     </SafeAreaView>
   );
 };
 
+function saveFoodItem({
+  name,
+  calorie = 10,
+  loggedInUserId,
+  setCreatedFoodItems,
+  createdFoodItems,
+}) {
+  if (isValidElement(name) && name.length > 1) {
+    const payload = foodItemPayload(new Date(), name, calorie, loggedInUserId);
+    addNewFoodItem(payload);
+    setCreatedFoodItems([...createdFoodItems, payload]);
+  }
+}
+
 const mapStateToProps = state => ({
   loggedInUserId: state.loginState.loggedInUserId,
+  autoCompleteResult: state.calorieTrackerState.autoCompleteResult,
 });
 
 const mapDispatchToProps = {
   addNewFoodItem,
+  autoCompleteFoodItems,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddFoodItemView);

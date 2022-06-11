@@ -5,7 +5,7 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
-
+import fs from 'fs';
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 import TestRunner from './utils/TestRunner';
@@ -19,6 +19,7 @@ import {
   getMillis,
 } from '../src/calorie-tracker-app/redux/CalorieTrackerConstants';
 import moment from 'moment-timezone';
+import {setUpAutoComplete} from '../src/calorie-tracker-app/redux/CalorieTrackerSaga';
 
 it('renders correctly', () => {
   renderer.create(<App />);
@@ -62,5 +63,10 @@ describe('check app core', () => {
     expect(getMillis('2014-06-01T00:00:00')).toEqual(1401561000000);
   });
 
-  test('a', () => {});
+  test('test autocomplete', async () => {
+    // read csv file
+    let data = fs.readFileSync('./nutrition_trim.csv', 'utf8');
+    // write algo to prepare Trie
+    // check if trie can be saved
+  });
 });

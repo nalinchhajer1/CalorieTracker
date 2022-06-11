@@ -36,3 +36,29 @@ export const getCalorieBuronoutFromFirestore = action => {
     type: TYPE_CALORIE_TRACKER.GET_CALORIE_BURNOUT_FROM_FIRESTORE,
   };
 };
+
+export const initializeAutoComplete = () => {
+  return {
+    type: TYPE_CALORIE_TRACKER.INITIALIZE_AUTO_COMPLETE,
+  };
+};
+
+export const autoCompleteInitializeCompleted = () => {
+  return {
+    type: TYPE_CALORIE_TRACKER.AUTO_COMPLETE_INITIALIZE_COMPLETED,
+  };
+};
+
+export const autoCompleteFoodItems = text => {
+  return {
+    type: TYPE_CALORIE_TRACKER.PERFORM_AUTO_COMPLETE_TEXT,
+    text,
+  };
+};
+
+export const setAutocompleteFoodItems = result => {
+  return {
+    type: TYPE_CALORIE_TRACKER.UPDATE_AUTO_COMPLETE_RESULT,
+    result,
+  };
+};

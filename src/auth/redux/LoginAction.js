@@ -19,3 +19,10 @@ export const changeLoginState = payload => {
     payload: payload,
   };
 };
+
+export const setLoggedInUserId = payload => {
+  return {
+    type: TYPE_LOGIN.SET_LOGGED_IN_USER_ID,
+    payload: payload,
+  };
+};

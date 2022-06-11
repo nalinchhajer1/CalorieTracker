@@ -14,6 +14,9 @@ export const LOGIN_TYPE = {
 
 export const FIREBASE_CONSTANTS = {
   USER_COLLECTION: 'Users',
+  FOOD_COLLECTION: 'food_items',
+  FIELD_USER: 'user',
+  FIELD_CREATED_AT: 'createdAt',
 };
 
 export function isUserLoggedIn(userState) {
@@ -22,3 +25,7 @@ export function isUserLoggedIn(userState) {
     userState === LOGIN_TYPE.ADMIN_LOGGED_IN
   );
 }
+
+export const isValidElement = data => {
+  return data !== null && data !== undefined;
+};

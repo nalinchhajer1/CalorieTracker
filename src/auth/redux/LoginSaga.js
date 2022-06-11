@@ -7,7 +7,7 @@ import {
   LOGIN_TYPE,
 } from './LoginConstants';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {changeLoginState} from './LoginAction';
+import {changeLoginState, setLoggedInUserId} from './LoginAction';
 import auth from '@react-native-firebase/auth';
 import reactotron from 'reactotron-react-native';
 import firestore from '@react-native-firebase/firestore';
@@ -26,6 +26,7 @@ function* onGoogleLoginPressed() {
     const result = yield call(performGoogleLogin);
     if (result) {
       yield call(onSigninSuccess, result);
+      yield put(setLoggedInUserId(result.user.uid));
       yield put(changeLoginState(LOGIN_TYPE.USER_LOGGED_IN, result));
     }
   } catch (e) {

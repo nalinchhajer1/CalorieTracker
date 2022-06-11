@@ -22,6 +22,8 @@
 //   })),
 // );
 
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
+
 // https://github.com/invertase/react-native-firebase/issues/3035
 jest.mock('@react-native-firebase/app', () => () => {
   return {

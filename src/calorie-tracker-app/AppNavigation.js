@@ -4,7 +4,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {connect} from 'react-redux';
 import {appInitialized} from './redux/CalorieTrackerAction';
 import {isUserLoggedIn} from '../auth/redux/LoginConstants';
-import HomeScreen from './view/DeveloperTest';
+import FoodItemList from './view/FoodItemList';
+import FoodCalendarList from './view/FoodCalendarList';
+import AddFoodItemView from './view/AddFoodItemView';
 
 const RootStack = createNativeStackNavigator();
 
@@ -16,7 +18,11 @@ const RootStackScreen = ({appInitialized, userState}) => {
   return (
     <RootStack.Navigator headerMode="none">
       {isUserLoggedIn(userState) ? (
-        <RootStack.Screen name="Home" component={HomeScreen} />
+        <>
+          <RootStack.Screen name="Home" component={FoodItemList} />
+          <RootStack.Screen name="Calendar" component={FoodCalendarList} />
+          <RootStack.Screen name="Create" component={AddFoodItemView} />
+        </>
       ) : (
         <RootStack.Screen name="Login" component={LoginScreen} />
       )}

@@ -36,6 +36,11 @@ const FoodSectionListStyles = {
     padding: 4,
     marginRight: 20,
   },
+  deleteIconStyle: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+  },
 };
 
 export default StyleSheet.create(FoodSectionListStyles);

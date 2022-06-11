@@ -20,6 +20,7 @@ import {
 } from './CalorieTrackerConstants';
 import {
   autoCompleteInitializeCompleted,
+  deleteFoodItemCompleted,
   initializeAutoComplete,
   setAutocompleteFoodItems,
   updateCalorieBurnoutValue,
@@ -72,6 +73,31 @@ function* findCaloriesBurnoutForPeriod(action) {
     reactotron.log('received result', result);
     const {start_date, end_date} = action;
     yield put(updateCalorieBurnoutValue(start_date, end_date, result));
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
+function* performOnDeleteClick(action) {
+  try {
+    const {data} = action;
+    if (!isValidElement(data)) {
+      throw 'Invalid delete request';
+    }
+    const {user, date, calorie} = data;
+    yield put(deleteFoodItemCompleted(data));
+    yield firestore().doc(data._path).delete();
+
+    yield firestore()
+      .collection('analytics')
+      .doc(user)
+      .set(
+        {
+          ['calorie-' + date]: firestore.FieldValue.increment(-calorie),
+          ['count-' + date]: firestore.FieldValue.increment(-1),
+        },
+        {merge: true},
+      );
   } catch (e) {
     reactotron.log(e.toString());
   }
@@ -166,6 +192,7 @@ function* CalorieTrackerSaga() {
       TYPE_CALORIE_TRACKER.PERFORM_AUTO_COMPLETE_TEXT,
       performAutoCompleteText,
     ),
+    takeEvery(TYPE_CALORIE_TRACKER.ON_DELETE_CLICK, performOnDeleteClick),
   ]);
 }
 

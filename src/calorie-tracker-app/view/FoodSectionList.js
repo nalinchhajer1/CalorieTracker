@@ -1,11 +1,25 @@
 import React from 'react';
-import {SectionList, View, Text, SafeAreaView, Pressable} from 'react-native';
+import {
+  SectionList,
+  View,
+  Text,
+  SafeAreaView,
+  Pressable,
+  Alert,
+} from 'react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {MAX_CALORIE_LIMIT} from '../redux/CalorieTrackerConstants';
 import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
+import {Ionicons} from '@expo/vector-icons';
+import {
+  addNewFoodItem,
+  autoCompleteFoodItems,
+  deleteFoodItem,
+} from '../redux/CalorieTrackerAction';
+import {connect} from 'react-redux';
 
-const FoodSectionList = ({section_data = [], style}) => {
+const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
   return (
     <SectionList
       sections={section_data}
@@ -15,6 +29,19 @@ const FoodSectionList = ({section_data = [], style}) => {
           data={section.item}
           name={section.item.name}
           calorie={section.item.calorie}
+          onDeleteClick={data => {
+            Alert.alert('Are your sure?', 'Are you sure you want to delete?', [
+              {
+                text: 'Yes',
+                onPress: () => {
+                  deleteFoodItem(data);
+                },
+              },
+              {
+                text: 'No',
+              },
+            ]);
+          }}
         />
       )}
       renderSectionHeader={({section}) => <HeaderItem section={section} />}
@@ -22,7 +49,14 @@ const FoodSectionList = ({section_data = [], style}) => {
   );
 };
 
-export const FoodListItem = ({data, name, serving, calorie, onItemClick}) => {
+export const FoodListItem = ({
+  data,
+  name,
+  serving,
+  calorie,
+  onItemClick,
+  onDeleteClick,
+}) => {
   return (
     <Pressable
       style={FoodSectionListStyles.foodItemContainer}
@@ -34,6 +68,15 @@ export const FoodListItem = ({data, name, serving, calorie, onItemClick}) => {
         <Text style={FoodSectionListStyles.calorieItemText}>{serving}</Text>
       )}
       <Text style={FoodSectionListStyles.calorieItemText}>{calorie}</Text>
+      {isValidElement(onDeleteClick) && (
+        <Pressable
+          style={FoodSectionListStyles.deleteIconStyle}
+          onPress={() => {
+            onDeleteClick(data);
+          }}>
+          <Ionicons name={'remove-circle-outline'} size={18} color={'tomato'} />
+        </Pressable>
+      )}
     </Pressable>
   );
 };
@@ -52,4 +95,9 @@ const HeaderItem = ({section}) => {
   );
 };
 
-export default FoodSectionList;
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+  deleteFoodItem,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(FoodSectionList);

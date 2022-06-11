@@ -50,6 +50,7 @@ const AddFoodItemView = ({
           saveFoodItem({
             name: userText,
             loggedInUserId,
+            addNewFoodItem,
             setCreatedFoodItems,
             createdFoodItems,
           });
@@ -71,6 +72,7 @@ const AddFoodItemView = ({
                   name: foodItem['1'],
                   calorie: foodItem['3'],
                   loggedInUserId,
+                  addNewFoodItem,
                   setCreatedFoodItems,
                   createdFoodItems,
                 });
@@ -96,6 +98,7 @@ function saveFoodItem({
   name,
   calorie = 10,
   loggedInUserId,
+  addNewFoodItem,
   setCreatedFoodItems,
   createdFoodItems,
 }) {

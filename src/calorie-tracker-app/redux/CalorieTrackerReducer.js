@@ -1,4 +1,5 @@
 import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
+import {performLocalDeleteForFoodItem} from './CalorieTrackerConstants';
 
 const initialState = {
   appInitialized: false,
@@ -22,6 +23,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         autoCompleteResult: action.result,
+      };
+    case TYPE_CALORIE_TRACKER.ON_DELETE_SUCCESSFULL_ITEM:
+      return {
+        ...state,
+        calorieList: performLocalDeleteForFoodItem(
+          state.calorieList,
+          action.data,
+        ),
       };
     default:
       return state;

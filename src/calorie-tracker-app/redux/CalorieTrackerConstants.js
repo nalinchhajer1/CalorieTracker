@@ -93,3 +93,20 @@ export function foodItemPayload(date, name, calorie, loggedInUserId) {
     user: loggedInUserId,
   };
 }
+
+export function performLocalDeleteForFoodItem(calorieList, data) {
+  if (isValidElement(data)) {
+    for (let i = 0; i < calorieList.length; i++) {
+      if (calorieList[i].data.indexOf(data) > -1) {
+        const newArray = calorieList[i].data;
+        const indexOfItem = calorieList[i].data.indexOf(data);
+        calorieList[i].sumCalorie =
+          calorieList[i].sumCalorie - calorieList[i].data[indexOfItem].calorie;
+        newArray.splice(indexOfItem, 1);
+        calorieList[i].data = newArray;
+        return [...calorieList];
+      }
+    }
+  }
+  return calorieList;
+}

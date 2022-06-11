@@ -62,3 +62,17 @@ export const setAutocompleteFoodItems = result => {
     result,
   };
 };
+
+export const deleteFoodItem = data => {
+  return {
+    type: TYPE_CALORIE_TRACKER.ON_DELETE_CLICK,
+    data,
+  };
+};
+
+export const deleteFoodItemCompleted = data => {
+  return {
+    type: TYPE_CALORIE_TRACKER.ON_DELETE_SUCCESSFULL_ITEM,
+    data,
+  };
+};

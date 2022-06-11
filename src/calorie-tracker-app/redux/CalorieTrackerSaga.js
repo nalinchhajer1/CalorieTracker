@@ -29,15 +29,18 @@ function* addFoodItem(action) {
     const loggedInUserId = yield select(
       state => state.loginState.loggedInUserId,
     );
-    const {date, name, calorie} = action;
+    const {date, calorie, name} = action.payload;
+    if (
+      !isValidElement(date) ||
+      !isValidElement(calorie) ||
+      !isValidElement(name)
+    ) {
+      throw 'Invalid argument';
+    }
 
-    yield firestore().collection(FIREBASE_CONSTANTS.FOOD_COLLECTION).add({
-      name,
-      calorie,
-      date: date,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-      user: loggedInUserId,
-    });
+    yield firestore()
+      .collection(FIREBASE_CONSTANTS.FOOD_COLLECTION)
+      .add(action.payload);
 
     yield firestore()
       .collection('analytics')

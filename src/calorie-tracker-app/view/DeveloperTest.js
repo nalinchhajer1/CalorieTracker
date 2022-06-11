@@ -18,14 +18,14 @@ const HomeScreen = ({addNewFoodItem, findCalorieBurnout}) => {
         title={'Add New Food Item'}
         style={styles.buttonStyle}
         onPress={() => {
-          addNewFoodItem(getCurrentDate(), 'Milk', 40);
+          // addNewFoodItem(getCurrentDate(), 'Milk', 40);
         }}
       />
       <Button
         title={'Find items consumed in period'}
         style={styles.buttonStyle}
         onPress={() => {
-          findCalorieBurnout(1654713000000, 1655058600000);
+          // findCalorieBurnout(1654713000000, 1655058600000);
         }}
       />
 
@@ -33,7 +33,7 @@ const HomeScreen = ({addNewFoodItem, findCalorieBurnout}) => {
         title={'Find last 90 days calorie count and food item count'}
         style={styles.buttonStyle}
         onPress={() => {
-          findCalorieBurnout(30);
+          // findCalorieBurnout(30);
         }}
       />
     </View>

@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
+import firestore from '@react-native-firebase/firestore';
 
 export const MAX_CALORIE_LIMIT = 2100;
 
@@ -72,4 +73,14 @@ export function convertFirestoreObjectToFoodItemModal(foodItemQueryResult) {
     });
   }
   return foodItemModals;
+}
+
+export function foodItemPayload(date, name, calorie, loggedInUserId) {
+  return {
+    name,
+    calorie,
+    date: getFormattedDay(date),
+    createdAt: firestore.Timestamp.fromDate(date),
+    user: loggedInUserId,
+  };
 }

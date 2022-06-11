@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, SectionList, View} from 'react-native';
 import FoodItemStyles from './styles/FoodItemStyles';
 import {connect} from 'react-redux';
@@ -8,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 import {FIREBASE_CONSTANTS} from '../../auth/redux/LoginConstants';
 import CalendarListStyles from './styles/CalendarListStyles';
 import FoodSectionList from './FoodSectionList';
+import reactotron from 'reactotron-react-native';
 
 const FoodItemList = ({
   findCalorieBurnout,
@@ -19,12 +20,21 @@ const FoodItemList = ({
     findCalorieBurnout(getCurrentDate(), getCurrentDate());
   }, [findCalorieBurnout]);
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      findCalorieBurnout(getCurrentDate(), getCurrentDate());
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [findCalorieBurnout, navigation]);
+
   useEffect(() => {
     const subscriber = firestore()
       .collection(FIREBASE_CONSTANTS.FOOD_COLLECTION)
       .where(FIREBASE_CONSTANTS.FIELD_USER, '==', loggedInUserId)
       .onSnapshot(documentSnapshot => {
-        console.log('User data: ', documentSnapshot);
+        reactotron.log('User data: ', documentSnapshot);
       });
     // Stop listening for updates when no longer required
     return () => subscriber();

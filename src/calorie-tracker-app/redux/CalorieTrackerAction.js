@@ -6,12 +6,10 @@ export const appInitialized = () => {
   };
 };
 
-export const addNewFoodItem = (date, name, calorie) => {
+export const addNewFoodItem = payload => {
   return {
     type: TYPE_CALORIE_TRACKER.ADD_NEW_FOOD_ITEM,
-    date,
-    name,
-    calorie,
+    payload: payload,
   };
 };
 

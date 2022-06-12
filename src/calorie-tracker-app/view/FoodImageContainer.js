@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Alert, Platform, Text, TouchableOpacity} from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
@@ -16,6 +16,10 @@ const FoodImageContainer = ({
   const [image, setImage] = useState(serverImage ? {uri: serverImage} : null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
+
+  useEffect(() => {
+    setImage(serverImage ? {uri: serverImage} : null);
+  }, [serverImage]);
 
   const uploadImage = source => {
     const {uri, name} = source;

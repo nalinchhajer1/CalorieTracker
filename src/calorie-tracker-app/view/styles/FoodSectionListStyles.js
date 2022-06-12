@@ -26,6 +26,7 @@ const FoodSectionListStyles = {
   foodSectionItemContainer: {
     flexDirection: 'row',
     padding: 8,
+    backgroundColor: '#f6f6f6',
   },
   foodItemText: {
     marginLeft: 8,

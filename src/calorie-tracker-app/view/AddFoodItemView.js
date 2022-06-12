@@ -63,6 +63,7 @@ const AddFoodItemView = ({
     autoCompleteFoodItems('');
     if (isEdit !== true) {
       setUserText('');
+      setFoodImagePath(null);
     }
   }, [
     addNewFoodItem,
@@ -160,6 +161,7 @@ const AddFoodItemView = ({
                 autoCompleteFoodItems('');
                 if (isEdit !== true) {
                   setUserText('');
+                  setFoodImagePath(null);
                 }
               }}
             />

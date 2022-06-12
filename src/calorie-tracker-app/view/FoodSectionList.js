@@ -19,6 +19,7 @@ import {
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
   reactotron.log('render:FoodSectionList');
@@ -32,6 +33,7 @@ const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
           data={section.item}
           name={section.item.name}
           calorie={section.item.calorie}
+          image={section.item.image}
           onDeleteClick={data => {
             Alert.alert('Are your sure?', 'Are you sure you want to delete?', [
               {
@@ -59,17 +61,32 @@ export const FoodListItem = ({
   data,
   name,
   serving,
+  image,
   calorie,
   onItemClick,
   onDeleteClick,
 }) => {
-  reactotron.log('render:FoodListItem');
+  // reactotron.log('render:FoodListItem');
   return (
     <Pressable
       style={FoodSectionListStyles.foodItemContainer}
       onPress={() => {
         isValidElement(onItemClick) && onItemClick(data);
       }}>
+      {image ? (
+        <FastImage
+          style={FoodSectionListStyles.foodImageStyle}
+          source={{uri: image}}
+        />
+      ) : (
+        <Ionicons
+          style={FoodSectionListStyles.foodImageStyle}
+          name={'fast-food-outline'}
+          size={30}
+          color={'tomato'}
+        />
+      )}
+
       <Text style={FoodSectionListStyles.foodItemText}>{name}</Text>
       {isValidElement(serving) && (
         <Text style={FoodSectionListStyles.calorieItemText}>{serving}</Text>

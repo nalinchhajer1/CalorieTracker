@@ -17,7 +17,6 @@ const FoodItemStyles = {
   },
   addItemMessageText: {
     elevation: 2,
-    margin: 10,
     padding: 10,
     flex: 1,
     fontSize: 16,

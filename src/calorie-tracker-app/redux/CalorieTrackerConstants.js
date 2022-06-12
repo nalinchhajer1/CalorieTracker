@@ -9,7 +9,7 @@ export const DAY_DATE_FORMAT = 'YYYY-MM-DD';
 export const USER_DAY_DATE_FORMAT = 'DD MMM';
 
 export const Strings = {
-  MESSAGE_ADD_FOODITEM: 'What did you eat for the day?',
+  MESSAGE_ADD_FOODITEM: 'What did you eat?',
   DONE: 'Done',
   HOME_TAB: 'Home',
   CALENDAR_TAB: 'Calendar',
@@ -90,13 +90,14 @@ export function convertFirestoreObjectToFoodItemModal(foodItemQueryResult) {
   return foodItemModals;
 }
 
-export function foodItemPayload(date, name, calorie, loggedInUserId) {
+export function foodItemPayload(date, name, calorie, loggedInUserId, image) {
   return {
     name,
     calorie,
     date: getFormattedDay(date),
     createdAt: firestore.Timestamp.fromDate(date),
     user: loggedInUserId,
+    image: image,
   };
 }
 
@@ -145,6 +146,7 @@ export function performLocalUpdateForFoodItem(calorieList, data, newData) {
                     ...individualItem,
                     name: newData.name,
                     calorie: newData.calorie,
+                    image: newData.image,
                   };
                 }
                 return individualItem;

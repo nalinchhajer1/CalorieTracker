@@ -5,7 +5,7 @@ import {
   TextInput,
   Button,
   FlatList,
-  Text,
+  Alert,
 } from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';
@@ -13,12 +13,12 @@ import {isValidElement} from '../../auth/redux/LoginConstants';
 import {
   addNewFoodItem,
   autoCompleteFoodItems,
-  findCalorieBurnout,
   updateFoodItem,
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {FoodListItem} from './FoodSectionList';
 import reactotron from 'reactotron-react-native';
+import FoodImageContainer from './FoodImageContainer';
 
 let validCalorie = new RegExp(/^\d*$/);
 
@@ -31,21 +31,27 @@ const AddFoodItemView = ({
   updateFoodItem,
   route,
 }) => {
-  const {updateData, isEdit = false} = route.params;
+  const {updateData, isEdit = false} = route?.params ?? {};
   const [userText, setUserText] = useState(updateData?.name ?? '');
   const [createdFoodItems, setCreatedFoodItems] = useState([]);
   const [calorieText, setCalorieText] = useState(
     updateData?.calorie?.toString() ?? '',
   );
+  const [foodImagePath, setFoodImagePath] = useState(updateData?.image ?? null);
+  const [imageUploading, setImageUploading] = useState(false);
 
   const onUserFinish = useCallback(() => {
-    reactotron.log({calorieText});
+    if (imageUploading === true) {
+      Alert.alert('Please wait!', 'Image is getting uploaded');
+      return;
+    }
     saveFoodItem({
       name: userText,
       calorie:
         isValidElement(calorieText) && calorieText.length > 0
           ? parseInt(calorieText)
           : 100,
+      image: foodImagePath,
       loggedInUserId,
       addNewFoodItem,
       setCreatedFoodItems,
@@ -63,6 +69,8 @@ const AddFoodItemView = ({
     autoCompleteFoodItems,
     calorieText,
     createdFoodItems,
+    foodImagePath,
+    imageUploading,
     isEdit,
     loggedInUserId,
     updateData,
@@ -72,23 +80,33 @@ const AddFoodItemView = ({
 
   reactotron.log('render:AddFoodItemView');
 
+  const onDoneButtonPressed = useCallback(() => {
+    onUserFinish();
+    if (imageUploading !== true) {
+      navigation.goBack();
+    }
+  }, [imageUploading, navigation, onUserFinish]);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          title={Strings.DONE}
-          onPress={() => {
-            onUserFinish();
-            navigation.goBack();
-          }}
-        />
+        <Button title={Strings.DONE} onPress={onDoneButtonPressed} />
       ),
     });
-  }, [navigation, onUserFinish]);
+  }, [navigation, onDoneButtonPressed]);
 
   return (
     <SafeAreaView style={AddFoodItemStyles.container}>
       <View style={AddFoodItemStyles.textEntryContainer}>
+        <FoodImageContainer
+          onUserAddedImage={imagePath => {
+            setFoodImagePath(imagePath);
+          }}
+          serverImage={foodImagePath}
+          onChangeImageUploadingState={newState => {
+            setImageUploading(newState);
+          }}
+        />
         <TextInput
           style={AddFoodItemStyles.textEntry}
           placeholder={Strings.MESSAGE_ADD_FOODITEM}
@@ -98,6 +116,8 @@ const AddFoodItemView = ({
           }}
           autoFocus
           blurOnSubmit={false}
+          multiline={true}
+          numberOfLines={3}
           value={userText}
           onSubmitEditing={onUserFinish}
         />
@@ -128,6 +148,7 @@ const AddFoodItemView = ({
                 saveFoodItem({
                   name: foodItem['1'],
                   calorie: foodItem['3'],
+                  image: foodImagePath,
                   loggedInUserId,
                   addNewFoodItem,
                   setCreatedFoodItems,
@@ -148,7 +169,12 @@ const AddFoodItemView = ({
         <FlatList
           data={createdFoodItems}
           renderItem={({item}) => (
-            <FoodListItem data={item} name={item.name} calorie={item.calorie} />
+            <FoodListItem
+              data={item}
+              name={item.name}
+              calorie={item.calorie}
+              image={item.image}
+            />
           )}
         />
       )}
@@ -159,6 +185,7 @@ const AddFoodItemView = ({
 function saveFoodItem({
   name,
   calorie,
+  image,
   loggedInUserId,
   addNewFoodItem,
   setCreatedFoodItems,
@@ -169,13 +196,14 @@ function saveFoodItem({
 }) {
   if (isValidElement(name) && name.length >= 1) {
     if (isEdit === true) {
-      updateFoodItem(updateData, name, calorie);
+      updateFoodItem(updateData, name, calorie, image);
     } else {
       const payload = foodItemPayload(
         new Date(),
         name,
         calorie,
         loggedInUserId,
+        image,
       );
       addNewFoodItem(payload);
       setCreatedFoodItems([...createdFoodItems, payload]);

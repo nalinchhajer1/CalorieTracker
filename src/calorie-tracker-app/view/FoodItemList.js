@@ -12,6 +12,8 @@ import {FIREBASE_CONSTANTS} from '../../auth/redux/LoginConstants';
 import CalendarListStyles from './styles/CalendarListStyles';
 import FoodSectionList from './FoodSectionList';
 import reactotron from 'reactotron-react-native';
+import FoodSectionListStyles from './styles/FoodSectionListStyles';
+import {Ionicons} from '@expo/vector-icons';
 
 const FoodItemList = ({
   findCalorieBurnout,
@@ -53,6 +55,12 @@ const FoodItemList = ({
         onPress={() => {
           navigation.navigate('Create');
         }}>
+        <Ionicons
+          style={FoodSectionListStyles.foodImageStyle}
+          name={'fast-food-outline'}
+          size={30}
+          color={'tomato'}
+        />
         <Text style={FoodItemStyles.addItemMessageText}>
           {Strings.MESSAGE_ADD_FOODITEM}
         </Text>

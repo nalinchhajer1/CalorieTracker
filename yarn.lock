@@ -1966,6 +1966,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-10.7.0.tgz#eb7ebb0ab9a192af1a7d448327b99a4a87d8a4c7"
   integrity sha512-wDH78SdmDEdWebFqujinqTqfJMVDcx9W57cEzY09PQcmI5xjdalSyU4gj8AXDTB0718/kDK6C7nhzOHZOjln0w==
 
+"@react-native-firebase/storage@10.7.0":
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-10.7.0.tgz#43a024ae46ccfc15fdf1902acf44744d12a1d090"
+  integrity sha512-LX6hTHmTCrEKEsmwT0XOzlyem3PVIUpPIt3KIDBKEWZgb3poKB4eZENwqTwlXu1ivvMHGVgip6Bfkl/f/jnk3w==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
@@ -7884,6 +7889,11 @@ react-native-codegen@^0.0.17:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-fast-image@^8.5.11:
+  version "8.5.11"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
+  integrity sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA==
+
 react-native-flipper@^0.34.0:
   version "0.34.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.34.0.tgz#7df1f38ba5d97a9321125fe0fccbe47d99e6fa1d"
@@ -7904,6 +7914,11 @@ react-native-gradle-plugin@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.6.tgz#b61a9234ad2f61430937911003cddd7e15c72b45"
   integrity sha512-eIlgtsmDp1jLC24dRn43hB3kEcZVqx6DUQbR0N1ABXGnMEafm9I3V3dUUeD1vh+Dy5WqijSoEwLNUPLgu5zDMg==
+
+react-native-image-picker@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.8.4.tgz#ac52f1e265458e944664adf1dcd0a9ee408fe083"
+  integrity sha512-Mjh2j/sddyolb16EpmprWzbtyeFvW8Xgzr/8WNi9d6bR2FC/kL78cY/a+7Yzujg5ZDtT1MWys+eWw/qtfwgGiw==
 
 react-native-local-resource@^0.1.6:
   version "0.1.6"

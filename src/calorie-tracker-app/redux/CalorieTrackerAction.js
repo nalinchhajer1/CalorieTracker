@@ -1,4 +1,4 @@
-import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
+import {TYPE_CALORIE_TRACKER, TYPE_IMAGE_UPLOAD} from './CalorieTrackerTypes';
 
 export const appInitialized = () => {
   return {
@@ -84,12 +84,13 @@ export const onReceiveSnapshotUpdate = data => {
   };
 };
 
-export const updateFoodItem = (data, name, calorie) => {
+export const updateFoodItem = (data, name, calorie, image) => {
   return {
     type: TYPE_CALORIE_TRACKER.UPDATE_FOOD_ITEM,
     data,
     name,
     calorie,
+    image,
   };
 };
 

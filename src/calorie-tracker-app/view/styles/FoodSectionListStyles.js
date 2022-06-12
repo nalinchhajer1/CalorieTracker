@@ -21,12 +21,14 @@ const FoodSectionListStyles = {
     backgroundColor: 'white',
     margin: 2,
     padding: 8,
+    alignItems: 'center',
   },
   foodSectionItemContainer: {
     flexDirection: 'row',
     padding: 8,
   },
   foodItemText: {
+    marginLeft: 8,
     fontSize: 16,
     padding: 4,
     flex: 1,
@@ -40,6 +42,11 @@ const FoodSectionListStyles = {
     width: 30,
     height: 30,
     justifyContent: 'center',
+  },
+  foodImageStyle: {
+    width: 40,
+    height: 40,
+    padding: 4,
   },
 };
 

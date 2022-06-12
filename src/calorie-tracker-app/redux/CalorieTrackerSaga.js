@@ -7,8 +7,9 @@ import {
   takeLatest,
   takeLeading,
   fork,
+  take,
 } from 'redux-saga/effects';
-import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
+import {TYPE_CALORIE_TRACKER, TYPE_IMAGE_UPLOAD} from './CalorieTrackerTypes';
 import firestore from '@react-native-firebase/firestore';
 import {
   FIREBASE_CONSTANTS,
@@ -30,6 +31,9 @@ import {
 } from './CalorieTrackerAction';
 import {AutocompleteTrie} from '../utils/AutocompleteTrie';
 import {updateUserDetail} from '../../auth/redux/LoginAction';
+import {buffers, eventChannel} from 'redux-saga';
+import {Platform} from 'react-native';
+import storage from '@react-native-firebase/storage';
 
 let autoCompleteTrie = null;
 
@@ -90,7 +94,7 @@ function* addFoodItem(action) {
 
 function* updateFoodItemSaga(action) {
   try {
-    const {data, name, calorie} = action;
+    const {data, name, calorie, image} = action;
     if (
       isValidElement(data.calorie) &&
       isValidElement(data._path) &&
@@ -98,11 +102,12 @@ function* updateFoodItemSaga(action) {
       isValidElement(name) &&
       isValidElement(calorie)
     ) {
-      yield put(onUpdateFoodItemCompleted(data, {name, calorie}));
+      yield put(onUpdateFoodItemCompleted(data, {name, calorie, image}));
       let existingCalorie = data.calorie;
       yield firestore().doc(data._path).update({
         name,
         calorie,
+        image,
       });
       if (existingCalorie !== calorie) {
         let diff = calorie - existingCalorie;

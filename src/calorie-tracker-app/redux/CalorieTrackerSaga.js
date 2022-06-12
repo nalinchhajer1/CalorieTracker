@@ -6,6 +6,7 @@ import {
   takeEvery,
   takeLatest,
   takeLeading,
+  fork,
 } from 'redux-saga/effects';
 import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
 import firestore from '@react-native-firebase/firestore';
@@ -17,6 +18,7 @@ import reactotron from 'reactotron-react-native';
 import {
   convertDatesToUnixFormat,
   convertFirestoreObjectToFoodItemModal,
+  userItemPayload,
 } from './CalorieTrackerConstants';
 import {
   autoCompleteInitializeCompleted,
@@ -26,20 +28,37 @@ import {
   updateCalorieBurnoutValue,
 } from './CalorieTrackerAction';
 import {AutocompleteTrie} from '../utils/AutocompleteTrie';
+import {updateUserDetail} from '../../auth/redux/LoginAction';
 
 let autoCompleteTrie = null;
 
 function* onAppInitialized() {
+  yield fork(downloadUserDetails);
   yield put({type: TYPE_CALORIE_TRACKER.APP_INITIALIZED_COMPLETED});
   yield put(initializeAutoComplete());
 }
 
+function* onReceiveSnapshotUpdate(action) {
+  const {data} = action;
+}
+
+function* downloadUserDetails() {
+  const loggedInUserId = yield select(state => state.loginState.loggedInUserId);
+  if (isValidElement(loggedInUserId)) {
+    const userDetail = yield firestore()
+      .collection(FIREBASE_CONSTANTS.USER_COLLECTION)
+      .doc(loggedInUserId)
+      .get();
+    const data = userDetail.data();
+    yield put(
+      updateUserDetail(userItemPayload(data.name, data.email, data.moderator)),
+    );
+  }
+}
+
 function* addFoodItem(action) {
   try {
-    const loggedInUserId = yield select(
-      state => state.loginState.loggedInUserId,
-    );
-    const {date, calorie, name} = action.payload;
+    const {date, calorie, name, user} = action.payload;
     if (
       !isValidElement(date) ||
       !isValidElement(calorie) ||
@@ -53,12 +72,13 @@ function* addFoodItem(action) {
       .add(action.payload);
 
     yield firestore()
-      .collection('analytics')
-      .doc(loggedInUserId)
+      .collection(FIREBASE_CONSTANTS.ANALYTICS_COLLECTION)
+      .doc(date)
       .set(
         {
-          ['calorie-' + date]: firestore.FieldValue.increment(calorie),
-          ['count-' + date]: firestore.FieldValue.increment(1),
+          calorie: firestore.FieldValue.increment(calorie),
+          count: firestore.FieldValue.increment(1),
+          user: firestore.FieldValue.arrayUnion(user),
         },
         {merge: true},
       );
@@ -84,17 +104,17 @@ function* performOnDeleteClick(action) {
     if (!isValidElement(data)) {
       throw 'Invalid delete request';
     }
-    const {user, date, calorie} = data;
+    const {date, calorie} = data;
     yield put(deleteFoodItemCompleted(data));
     yield firestore().doc(data._path).delete();
 
     yield firestore()
-      .collection('analytics')
-      .doc(user)
+      .collection(FIREBASE_CONSTANTS.ANALYTICS_COLLECTION)
+      .doc(date)
       .set(
         {
-          ['calorie-' + date]: firestore.FieldValue.increment(-calorie),
-          ['count-' + date]: firestore.FieldValue.increment(-1),
+          calorie: firestore.FieldValue.increment(-calorie),
+          count: firestore.FieldValue.increment(-1),
         },
         {merge: true},
       );
@@ -148,7 +168,7 @@ function* getCalorieBurnOutForPeriodFromFirestore(action) {
   }
 }
 
-export function* setUpAutoComplete() {
+function* setUpAutoComplete() {
   try {
     const nutritionData = require('../../../nutrition_trim.json');
     autoCompleteTrie = new AutocompleteTrie();
@@ -159,7 +179,7 @@ export function* setUpAutoComplete() {
   }
 }
 
-export function* performAutoCompleteText(action) {
+function* performAutoCompleteText(action) {
   try {
     const {text} = action;
     let result = [];
@@ -193,6 +213,10 @@ function* CalorieTrackerSaga() {
       performAutoCompleteText,
     ),
     takeEvery(TYPE_CALORIE_TRACKER.ON_DELETE_CLICK, performOnDeleteClick),
+    takeEvery(
+      TYPE_CALORIE_TRACKER.ON_RECEIVED_SNAPSHOT_UPDATE,
+      onReceiveSnapshotUpdate,
+    ),
   ]);
 }
 

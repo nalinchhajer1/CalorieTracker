@@ -10,6 +10,7 @@ import {
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {FoodListItem} from './FoodSectionList';
+import reactotron from 'reactotron-react-native';
 
 const AddFoodItemView = ({
   navigation,
@@ -20,6 +21,8 @@ const AddFoodItemView = ({
 }) => {
   const [userText, setUserText] = useState('');
   const [createdFoodItems, setCreatedFoodItems] = useState([]);
+
+  reactotron.log('render:AddFoodItemView');
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

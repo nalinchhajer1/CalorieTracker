@@ -76,3 +76,10 @@ export const deleteFoodItemCompleted = data => {
     data,
   };
 };
+
+export const onReceiveSnapshotUpdate = data => {
+  return {
+    type: TYPE_CALORIE_TRACKER.ON_RECEIVED_SNAPSHOT_UPDATE,
+    data,
+  };
+};

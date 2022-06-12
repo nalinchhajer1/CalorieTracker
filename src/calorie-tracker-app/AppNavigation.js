@@ -7,10 +7,12 @@ import {isUserLoggedIn} from '../auth/redux/LoginConstants';
 import AddFoodItemView from './view/AddFoodItemView';
 import TabNavigation from './view/TabNavigation';
 import {Strings} from './redux/CalorieTrackerConstants';
+import reactotron from 'reactotron-react-native';
 
 const RootStack = createNativeStackNavigator();
 
 const RootStackScreen = ({appInitialized, userState}) => {
+  reactotron.log('render:RootStackScreen');
   useEffect(() => {
     appInitialized();
   }, [appInitialized]);

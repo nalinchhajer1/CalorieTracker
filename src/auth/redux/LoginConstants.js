@@ -17,6 +17,7 @@ export const FIREBASE_CONSTANTS = {
   FOOD_COLLECTION: 'food_items',
   FIELD_USER: 'user',
   FIELD_CREATED_AT: 'createdAt',
+  ANALYTICS_COLLECTION: 'analytics',
 };
 
 export function isUserLoggedIn(userState) {

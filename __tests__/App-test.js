@@ -12,7 +12,6 @@ import TestRunner from './utils/TestRunner';
 import {appInitialized} from '../src/calorie-tracker-app/redux/CalorieTrackerAction';
 import {TYPE_CALORIE_TRACKER} from '../src/calorie-tracker-app/redux/CalorieTrackerTypes';
 import {
-  convertDatesToUnixFormat,
   DAY_DATE_FORMAT,
   getCurrentDate,
   getFormattedDay,
@@ -20,6 +19,10 @@ import {
 } from '../src/calorie-tracker-app/redux/CalorieTrackerConstants';
 import moment from 'moment-timezone';
 import {setUpAutoComplete} from '../src/calorie-tracker-app/redux/CalorieTrackerSaga';
+import {
+  getAnalyticsDateQuery,
+  getDateForChartDisplay,
+} from '../src/admin/redux/AdminConstants';
 
 it('renders correctly', () => {
   renderer.create(<App />);
@@ -63,10 +66,9 @@ describe('check app core', () => {
     expect(getMillis('2014-06-01T00:00:00')).toEqual(1401561000000);
   });
 
-  test('test autocomplete', async () => {
-    // read csv file
-    let data = fs.readFileSync('./nutrition_trim.csv', 'utf8');
-    // write algo to prepare Trie
-    // check if trie can be saved
+  test('getDateForChartDisplay', async () => {
+    expect(getDateForChartDisplay('2022-06-02')).toEqual('02 Jun');
+    expect(getDateForChartDisplay('2022-06-01', '02 Jun')).toEqual('01');
+    expect(getDateForChartDisplay('2022-05-31', '02 Jun')).toEqual('31 May');
   });
 });

@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 export const MAX_CALORIE_LIMIT = 2100;
 
 export const DAY_DATE_FORMAT = 'YYYY-MM-DD';
-export const USER_DAY_DATE_FORMAT = 'DD-MMM';
+export const USER_DAY_DATE_FORMAT = 'DD MMM';
 
 export const Strings = {
   MESSAGE_ADD_FOODITEM: 'What did you eat for the day?',
@@ -15,7 +15,12 @@ export const Strings = {
   CALENDAR_TAB: 'Calendar',
   SETTINGS_TAB: 'Settings',
   CREATE: 'Create',
+  ADMIN_TAB: 'Admin',
 };
+
+export function convertDayDateFormatToUserDateFormat(date) {
+  return moment(date).format(USER_DAY_DATE_FORMAT);
+}
 
 export function convertDatesToUnixFormat(start_date, end_date) {
   return {
@@ -58,7 +63,6 @@ export function fixedSizeofTwo(number) {
 export function convertFirestoreObjectToFoodItemModal(foodItemQueryResult) {
   const sections = {};
   for (const foodItem of foodItemQueryResult.docs) {
-    reactotron.log(foodItem);
     const data = {...foodItem.data(), _path: foodItem.ref.path};
     const dateInMillis = getDayInMillis(data.date);
     if (!isValidElement(sections[dateInMillis])) {
@@ -91,6 +95,14 @@ export function foodItemPayload(date, name, calorie, loggedInUserId) {
     date: getFormattedDay(date),
     createdAt: firestore.Timestamp.fromDate(date),
     user: loggedInUserId,
+  };
+}
+
+export function userItemPayload(user_name, user_email, user_moderator) {
+  return {
+    user_name,
+    user_email,
+    user_moderator,
   };
 }
 

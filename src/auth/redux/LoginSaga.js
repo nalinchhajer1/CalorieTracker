@@ -7,10 +7,15 @@ import {
   LOGIN_TYPE,
 } from './LoginConstants';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {changeLoginState, setLoggedInUserId} from './LoginAction';
+import {
+  changeLoginState,
+  setLoggedInUserId,
+  updateUserDetail,
+} from './LoginAction';
 import auth from '@react-native-firebase/auth';
 import reactotron from 'reactotron-react-native';
 import firestore from '@react-native-firebase/firestore';
+import {userItemPayload} from '../../calorie-tracker-app/redux/CalorieTrackerConstants';
 
 function* onGoogleSignInConfiguration() {
   GoogleSignin.configure({
@@ -60,6 +65,8 @@ function* onSigninSuccess(result) {
     yield usersCollection
       .doc(uid)
       .set({name: displayName, email: email}, {merge: true});
+
+    yield put(updateUserDetail(userItemPayload(displayName, email, null)));
   } catch (e) {
     reactotron.log(e.toString());
   }

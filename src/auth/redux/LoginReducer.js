@@ -3,6 +3,9 @@ import {TYPE_LOGIN} from './LoginType';
 const initialState = {
   userState: null,
   loggedInUserId: null,
+  user_name: null,
+  user_email: null,
+  user_moderator: null,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +19,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loggedInUserId: action.payload,
+      };
+    case TYPE_LOGIN.UPDATE_USER_DATA:
+      return {
+        ...state,
+        user_name: action.payload.user_name,
+        user_email: action.payload.user_email,
+        user_moderator: action.payload.user_moderator,
       };
     default:
       return state;

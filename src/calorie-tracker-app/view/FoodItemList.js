@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Button, SectionList, View, Text, Pressable} from 'react-native';
 import FoodItemStyles from './styles/FoodItemStyles';
 import {connect} from 'react-redux';
-import {findCalorieBurnout} from '../redux/CalorieTrackerAction';
+import {
+  findCalorieBurnout,
+  onReceiveSnapshotUpdate,
+} from '../redux/CalorieTrackerAction';
 import {getCurrentDate, Strings} from '../redux/CalorieTrackerConstants';
 import firestore from '@react-native-firebase/firestore';
 import {FIREBASE_CONSTANTS} from '../../auth/redux/LoginConstants';
@@ -15,6 +18,7 @@ const FoodItemList = ({
   navigation,
   loggedInUserId,
   calorieList,
+  onReceiveSnapshotUpdate,
 }) => {
   useEffect(() => {
     findCalorieBurnout(getCurrentDate(), getCurrentDate());
@@ -34,11 +38,13 @@ const FoodItemList = ({
       .collection(FIREBASE_CONSTANTS.FOOD_COLLECTION)
       .where(FIREBASE_CONSTANTS.FIELD_USER, '==', loggedInUserId)
       .onSnapshot(documentSnapshot => {
-        reactotron.log('User data: ', documentSnapshot);
+        onReceiveSnapshotUpdate(documentSnapshot);
       });
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, [loggedInUserId]);
+
+  reactotron.log('render:FoodItemList');
 
   return (
     <View style={FoodItemStyles.container}>
@@ -68,5 +74,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   findCalorieBurnout,
+  onReceiveSnapshotUpdate,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FoodItemList);

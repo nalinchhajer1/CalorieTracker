@@ -26,3 +26,10 @@ export const setLoggedInUserId = payload => {
     payload: payload,
   };
 };
+
+export const updateUserDetail = data => {
+  return {
+    type: TYPE_LOGIN.UPDATE_USER_DATA,
+    payload: data,
+  };
+};

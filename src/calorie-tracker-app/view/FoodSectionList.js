@@ -20,6 +20,7 @@ import {
 import {connect} from 'react-redux';
 
 const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
+  reactotron.log('render:FoodSectionList');
   return (
     <SectionList
       sections={section_data}
@@ -57,6 +58,7 @@ export const FoodListItem = ({
   onItemClick,
   onDeleteClick,
 }) => {
+  reactotron.log('render:FoodListItem');
   return (
     <Pressable
       style={FoodSectionListStyles.foodItemContainer}
@@ -82,6 +84,7 @@ export const FoodListItem = ({
 };
 
 const HeaderItem = ({section}) => {
+  reactotron.log('render:HeaderItem');
   return (
     <View style={FoodSectionListStyles.foodSectionItemContainer}>
       <Text style={FoodSectionListStyles.sectionText}>{section.title}</Text>

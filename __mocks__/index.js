@@ -1,5 +1,8 @@
 import './react-native-firebase-mock';
 
+// https://reactnavigation.org/docs/testing/
+import 'react-native-gesture-handler/jestSetup';
+
 global.WebSocket = function WebSocket() {};
 
 jest.mock('react-native-reanimated', () => {

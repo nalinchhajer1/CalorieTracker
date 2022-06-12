@@ -1,5 +1,8 @@
 import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
-import {performLocalDeleteForFoodItem} from './CalorieTrackerConstants';
+import {
+  performLocalDeleteForFoodItem,
+  performLocalUpdateForFoodItem,
+} from './CalorieTrackerConstants';
 
 const initialState = {
   appInitialized: false,
@@ -30,6 +33,15 @@ export default (state = initialState, action) => {
         calorieList: performLocalDeleteForFoodItem(
           state.calorieList,
           action.data,
+        ),
+      };
+    case TYPE_CALORIE_TRACKER.ON_UPDATE_SUCCESSFULL_ITEM:
+      return {
+        ...state,
+        calorieList: performLocalUpdateForFoodItem(
+          state.calorieList,
+          action.data,
+          action.newData,
         ),
       };
     default:

@@ -83,3 +83,20 @@ export const onReceiveSnapshotUpdate = data => {
     data,
   };
 };
+
+export const updateFoodItem = (data, name, calorie) => {
+  return {
+    type: TYPE_CALORIE_TRACKER.UPDATE_FOOD_ITEM,
+    data,
+    name,
+    calorie,
+  };
+};
+
+export const onUpdateFoodItemCompleted = (data, newData) => {
+  return {
+    type: TYPE_CALORIE_TRACKER.ON_UPDATE_SUCCESSFULL_ITEM,
+    data,
+    newData,
+  };
+};

@@ -21,12 +21,19 @@ const RootStackScreen = ({appInitialized, userState}) => {
     <RootStack.Navigator>
       {isUserLoggedIn(userState) ? (
         <>
-          <RootStack.Screen
-            name="Tab"
-            options={{headerShown: false}}
-            component={TabNavigation}
-          />
-          <RootStack.Screen name={Strings.CREATE} component={AddFoodItemView} />
+          <RootStack.Group>
+            <RootStack.Screen
+              name="Tab"
+              options={{headerShown: false}}
+              component={TabNavigation}
+            />
+            <RootStack.Screen
+              name={Strings.CREATE}
+              component={AddFoodItemView}
+            />
+            <RootStack.Screen name={Strings.Edit} component={AddFoodItemView} />
+          </RootStack.Group>
+          <RootStack.Group screenOptions={{presentation: 'modal'}} />
         </>
       ) : (
         <RootStack.Screen name="Login" component={LoginScreen} />

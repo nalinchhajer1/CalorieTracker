@@ -24,6 +24,7 @@ import {
   autoCompleteInitializeCompleted,
   deleteFoodItemCompleted,
   initializeAutoComplete,
+  onUpdateFoodItemCompleted,
   setAutocompleteFoodItems,
   updateCalorieBurnoutValue,
 } from './CalorieTrackerAction';
@@ -82,6 +83,42 @@ function* addFoodItem(action) {
         },
         {merge: true},
       );
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
+function* updateFoodItemSaga(action) {
+  try {
+    const {data, name, calorie} = action;
+    if (
+      isValidElement(data.calorie) &&
+      isValidElement(data._path) &&
+      isValidElement(data.date) &&
+      isValidElement(name) &&
+      isValidElement(calorie)
+    ) {
+      yield put(onUpdateFoodItemCompleted(data, {name, calorie}));
+      let existingCalorie = data.calorie;
+      yield firestore().doc(data._path).update({
+        name,
+        calorie,
+      });
+      if (existingCalorie !== calorie) {
+        let diff = calorie - existingCalorie;
+        yield firestore()
+          .collection(FIREBASE_CONSTANTS.ANALYTICS_COLLECTION)
+          .doc(data.date)
+          .set(
+            {
+              calorie: firestore.FieldValue.increment(diff),
+            },
+            {merge: true},
+          );
+      }
+    } else {
+      throw 'invalid update data';
+    }
   } catch (e) {
     reactotron.log(e.toString());
   }
@@ -217,6 +254,7 @@ function* CalorieTrackerSaga() {
       TYPE_CALORIE_TRACKER.ON_RECEIVED_SNAPSHOT_UPDATE,
       onReceiveSnapshotUpdate,
     ),
+    takeEvery(TYPE_CALORIE_TRACKER.UPDATE_FOOD_ITEM, updateFoodItemSaga),
   ]);
 }
 

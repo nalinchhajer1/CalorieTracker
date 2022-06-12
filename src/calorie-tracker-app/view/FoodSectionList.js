@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
-import {MAX_CALORIE_LIMIT} from '../redux/CalorieTrackerConstants';
+import {MAX_CALORIE_LIMIT, Strings} from '../redux/CalorieTrackerConstants';
 import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {Ionicons} from '@expo/vector-icons';
@@ -18,9 +18,11 @@ import {
   deleteFoodItem,
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
   reactotron.log('render:FoodSectionList');
+  const navigation = useNavigation();
   return (
     <SectionList
       sections={section_data}
@@ -42,6 +44,9 @@ const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
                 text: 'No',
               },
             ]);
+          }}
+          onItemClick={data => {
+            navigation.navigate(Strings.Edit, {updateData: data, isEdit: true});
           }}
         />
       )}

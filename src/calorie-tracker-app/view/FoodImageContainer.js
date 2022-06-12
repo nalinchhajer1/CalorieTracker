@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {Alert, Platform, Pressable, Text} from 'react-native';
+import {Alert, Platform, Text, TouchableOpacity} from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {Ionicons} from '@expo/vector-icons';
-import {useState} from 'react';
 import storage from '@react-native-firebase/storage';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -92,7 +91,7 @@ const FoodImageContainer = ({
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       style={AddFoodItemStyles.imageContainer}
       onPress={selectPhotoTapped}>
       {image !== null ? (
@@ -111,7 +110,7 @@ const FoodImageContainer = ({
           {'%'}
         </Text>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

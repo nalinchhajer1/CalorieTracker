@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {View, ScrollView, Text} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import AdminDashboardStyles, {
   sectionChartPadding,
 } from './styles/AdminDashboardStyles';
@@ -7,9 +7,9 @@ import {connect} from 'react-redux';
 import {getAdminAnalyticsData} from '../redux/AdminAction';
 import {
   Chart,
-  VerticalAxis,
   HorizontalAxis,
   Line,
+  VerticalAxis,
 } from 'react-native-responsive-linechart';
 import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';

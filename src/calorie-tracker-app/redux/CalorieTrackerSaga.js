@@ -1,15 +1,14 @@
 import {
   all,
   call,
+  fork,
   put,
   select,
   takeEvery,
   takeLatest,
   takeLeading,
-  fork,
-  take,
 } from 'redux-saga/effects';
-import {TYPE_CALORIE_TRACKER, TYPE_IMAGE_UPLOAD} from './CalorieTrackerTypes';
+import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
 import firestore from '@react-native-firebase/firestore';
 import {
   FIREBASE_CONSTANTS,
@@ -19,7 +18,6 @@ import reactotron from 'reactotron-react-native';
 import {
   convertDatesToUnixFormat,
   convertFirestoreObjectToFoodItemModal,
-  userItemPayload,
 } from './CalorieTrackerConstants';
 import {
   autoCompleteInitializeCompleted,
@@ -30,10 +28,7 @@ import {
   updateCalorieBurnoutValue,
 } from './CalorieTrackerAction';
 import {AutocompleteTrie} from '../utils/AutocompleteTrie';
-import {updateUserDetail} from '../../auth/redux/LoginAction';
-import {buffers, eventChannel} from 'redux-saga';
-import {Platform} from 'react-native';
-import storage from '@react-native-firebase/storage';
+import {downloadUserDetails} from '../../auth/redux/LoginSaga';
 
 let autoCompleteTrie = null;
 
@@ -45,20 +40,6 @@ function* onAppInitialized() {
 
 function* onReceiveSnapshotUpdate(action) {
   const {data} = action;
-}
-
-function* downloadUserDetails() {
-  const loggedInUserId = yield select(state => state.loginState.loggedInUserId);
-  if (isValidElement(loggedInUserId)) {
-    const userDetail = yield firestore()
-      .collection(FIREBASE_CONSTANTS.USER_COLLECTION)
-      .doc(loggedInUserId)
-      .get();
-    const data = userDetail.data();
-    yield put(
-      updateUserDetail(userItemPayload(data.name, data.email, data.moderator)),
-    );
-  }
 }
 
 function* addFoodItem(action) {

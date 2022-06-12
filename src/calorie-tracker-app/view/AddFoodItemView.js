@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
 import {
-  View,
-  SafeAreaView,
-  TextInput,
+  Alert,
   Button,
   FlatList,
-  Alert,
+  SafeAreaView,
+  TextInput,
+  View,
 } from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, SectionList, View, Text, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import FoodItemStyles from './styles/FoodItemStyles';
 import {connect} from 'react-redux';
 import {
@@ -50,7 +50,7 @@ const FoodItemList = ({
 
   return (
     <View style={FoodItemStyles.container}>
-      <Pressable
+      <TouchableOpacity
         style={FoodItemStyles.addItemContainer}
         onPress={() => {
           navigation.navigate('Create');
@@ -64,7 +64,7 @@ const FoodItemList = ({
         <Text style={FoodItemStyles.addItemMessageText}>
           {Strings.MESSAGE_ADD_FOODITEM}
         </Text>
-      </Pressable>
+      </TouchableOpacity>
       <View style={FoodItemStyles.listContainer}>
         <FoodSectionList
           style={CalendarListStyles.listContainer}

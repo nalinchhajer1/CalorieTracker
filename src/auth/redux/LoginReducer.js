@@ -27,6 +27,10 @@ export default (state = initialState, action) => {
         user_email: action.payload.user_email,
         user_moderator: action.payload.user_moderator,
       };
+    case TYPE_LOGIN.ON_LOGOUT_REQUEST:
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

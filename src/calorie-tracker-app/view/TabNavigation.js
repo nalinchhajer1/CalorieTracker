@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import FoodItemList from './FoodItemList';
@@ -6,7 +6,6 @@ import FoodCalendarList from './FoodCalendarList';
 import SettingsScreen from './SettingsScreen';
 import {Strings} from '../redux/CalorieTrackerConstants';
 import reactotron from 'reactotron-react-native';
-import {appInitialized} from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import AdminDashboardView from '../../admin/view/AdminDashboardView';
 

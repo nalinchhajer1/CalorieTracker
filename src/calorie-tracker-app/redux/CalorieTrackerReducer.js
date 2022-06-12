@@ -3,6 +3,7 @@ import {
   performLocalDeleteForFoodItem,
   performLocalUpdateForFoodItem,
 } from './CalorieTrackerConstants';
+import {TYPE_LOGIN} from '../../auth/redux/LoginType';
 
 const initialState = {
   appInitialized: false,
@@ -43,6 +44,10 @@ export default (state = initialState, action) => {
           action.data,
           action.newData,
         ),
+      };
+    case TYPE_LOGIN.ON_LOGOUT_REQUEST:
+      return {
+        ...initialState,
       };
     default:
       return state;

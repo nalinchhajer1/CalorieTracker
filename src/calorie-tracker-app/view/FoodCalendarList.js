@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {CalendarList} from 'react-native-calendars';
 import {View} from 'react-native';
 import CalendarListStyles from './styles/CalendarListStyles';
@@ -7,6 +7,7 @@ import reactotron from 'reactotron-react-native';
 import {findCalorieBurnout} from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import FoodSectionList from './FoodSectionList';
+
 const XDate = require('xdate');
 
 const FoodCalendarList = ({

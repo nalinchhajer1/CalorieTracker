@@ -1,29 +1,22 @@
 import React from 'react';
-import {
-  SectionList,
-  View,
-  Text,
-  SafeAreaView,
-  Pressable,
-  Alert,
-} from 'react-native';
+import {Alert, SectionList, Text, TouchableOpacity, View} from 'react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {MAX_CALORIE_LIMIT, Strings} from '../redux/CalorieTrackerConstants';
 import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {Ionicons} from '@expo/vector-icons';
-import {
-  addNewFoodItem,
-  autoCompleteFoodItems,
-  deleteFoodItem,
-} from '../redux/CalorieTrackerAction';
+import {deleteFoodItem} from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
 const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
-  reactotron.log('render:FoodSectionList');
   const navigation = useNavigation();
+  if (!isValidElement(section_data)) {
+    return null;
+  }
+  reactotron.log('render:FoodSectionList');
+
   return (
     <SectionList
       sections={section_data}
@@ -68,7 +61,7 @@ export const FoodListItem = ({
 }) => {
   // reactotron.log('render:FoodListItem');
   return (
-    <Pressable
+    <TouchableOpacity
       style={FoodSectionListStyles.foodItemContainer}
       onPress={() => {
         isValidElement(onItemClick) && onItemClick(data);
@@ -93,15 +86,15 @@ export const FoodListItem = ({
       )}
       <Text style={FoodSectionListStyles.calorieItemText}>{calorie}</Text>
       {isValidElement(onDeleteClick) && (
-        <Pressable
+        <TouchableOpacity
           style={FoodSectionListStyles.deleteIconStyle}
           onPress={() => {
             onDeleteClick(data);
           }}>
           <Ionicons name={'remove-circle-outline'} size={18} color={'tomato'} />
-        </Pressable>
+        </TouchableOpacity>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

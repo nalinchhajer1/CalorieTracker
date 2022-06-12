@@ -33,3 +33,9 @@ export const updateUserDetail = data => {
     payload: data,
   };
 };
+
+export const onLogoutRequest = () => {
+  return {
+    type: TYPE_LOGIN.ON_LOGOUT_REQUEST,
+  };
+};

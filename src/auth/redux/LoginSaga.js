@@ -1,9 +1,10 @@
-import {all, call, put, takeLatest} from 'redux-saga/effects';
+import {all, call, fork, put, select, takeLatest} from 'redux-saga/effects';
 import {TYPE_LOGIN} from './LoginType';
 import {
   FIREBASE_CONSTANTS,
   GOOGLE_SIGN_IN_SCOPES,
   GOOGLE_WEB_CLIENT_ID,
+  isValidElement,
   LOGIN_TYPE,
 } from './LoginConstants';
 import {GoogleSignin} from '@react-native-community/google-signin';
@@ -33,6 +34,7 @@ function* onGoogleLoginPressed() {
       yield call(onSigninSuccess, result);
       yield put(setLoggedInUserId(result.user.uid));
       yield put(changeLoginState(LOGIN_TYPE.USER_LOGGED_IN, result));
+      yield fork(downloadUserDetails);
     }
   } catch (e) {
     reactotron.log(e.toString());
@@ -72,6 +74,36 @@ function* onSigninSuccess(result) {
   }
 }
 
+export function* downloadUserDetails() {
+  try {
+    const loggedInUserId = yield select(
+      state => state.loginState.loggedInUserId,
+    );
+    if (isValidElement(loggedInUserId)) {
+      const userDetail = yield firestore()
+        .collection(FIREBASE_CONSTANTS.USER_COLLECTION)
+        .doc(loggedInUserId)
+        .get();
+      const data = userDetail.data();
+      yield put(
+        updateUserDetail(
+          userItemPayload(data.name, data.email, data.moderator),
+        ),
+      );
+    }
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
+function* onLogoutRequestSaga() {
+  try {
+    yield auth().signOut();
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
 function* LoginSaga() {
   yield all([
     takeLatest(
@@ -79,6 +111,7 @@ function* LoginSaga() {
       onGoogleSignInConfiguration,
     ),
     takeLatest(TYPE_LOGIN.ON_GOOGLE_LOGIN_PRESS, onGoogleLoginPressed),
+    takeLatest(TYPE_LOGIN.ON_LOGOUT_REQUEST, onLogoutRequestSaga),
   ]);
 }
 

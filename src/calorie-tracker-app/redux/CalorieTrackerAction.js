@@ -1,4 +1,4 @@
-import {TYPE_CALORIE_TRACKER, TYPE_IMAGE_UPLOAD} from './CalorieTrackerTypes';
+import {TYPE_CALORIE_TRACKER} from './CalorieTrackerTypes';
 
 export const appInitialized = () => {
   return {

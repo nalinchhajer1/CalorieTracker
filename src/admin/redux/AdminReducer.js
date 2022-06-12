@@ -1,4 +1,5 @@
 import {ADMIN_TYPE} from './AdminType';
+import {TYPE_LOGIN} from '../../auth/redux/LoginType';
 
 const initialState = {
   chartData: null,
@@ -10,6 +11,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         chartData: action.payload,
+      };
+    case TYPE_LOGIN.ON_LOGOUT_REQUEST:
+      return {
+        ...initialState,
       };
     default:
       return state;

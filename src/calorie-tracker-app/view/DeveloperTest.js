@@ -2,14 +2,9 @@ import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import {
-  onLoginScreenLaunchGoogleLoginConfiguration,
-  onPressGoogleLogin,
-} from '../../auth/redux/LoginAction';
-import {
   addNewFoodItem,
   findCalorieBurnout,
 } from '../redux/CalorieTrackerAction';
-import {getCurrentDate} from '../redux/CalorieTrackerConstants';
 
 const HomeScreen = ({addNewFoodItem, findCalorieBurnout}) => {
   return (

@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import IndexSaga from './sagas';
 import Reactotron, {sagaMonitor} from '../../../ReactotronConfig';
-import {persistStore, persistReducer} from 'redux-persist';
+import {persistReducer, persistStore} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const persistConfig = {

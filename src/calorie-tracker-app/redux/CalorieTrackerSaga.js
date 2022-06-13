@@ -113,7 +113,6 @@ function* updateFoodItemSaga(action) {
 function* findCaloriesBurnoutForPeriod(action) {
   try {
     const result = yield call(getCalorieBurnOutForPeriodFromFirestore, action);
-    reactotron.log('received result', result);
     const {start_date, end_date} = action;
     yield put(updateCalorieBurnoutValue(start_date, end_date, result));
   } catch (e) {
@@ -157,8 +156,6 @@ function* getCalorieBurnOutForPeriodFromFirestore(action) {
       start_date,
       end_date,
     );
-
-    reactotron.log({start_time, end_time});
 
     if (
       isValidElement(start_time) &&

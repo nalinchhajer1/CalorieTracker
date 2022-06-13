@@ -7,12 +7,11 @@ import {isUserLoggedIn} from '../auth/redux/LoginConstants';
 import AddFoodItemView from './view/AddFoodItemView';
 import TabNavigation from './view/TabNavigation';
 import {Strings} from './redux/CalorieTrackerConstants';
-import reactotron from 'reactotron-react-native';
+import AdminFoodList from '../admin/view/AdminFoodList';
 
 const RootStack = createNativeStackNavigator();
 
 const RootStackScreen = ({appInitialized, userState}) => {
-  reactotron.log('render:RootStackScreen');
   useEffect(() => {
     appInitialized();
   }, [appInitialized]);
@@ -27,6 +26,7 @@ const RootStackScreen = ({appInitialized, userState}) => {
               options={{headerShown: false}}
               component={TabNavigation}
             />
+            <RootStack.Screen name="AdminList" component={AdminFoodList} />
           </RootStack.Group>
           <RootStack.Group screenOptions={{presentation: 'modal'}}>
             <RootStack.Screen

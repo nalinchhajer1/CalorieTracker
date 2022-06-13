@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import firestore from '@react-native-firebase/firestore';
 
@@ -32,7 +31,6 @@ export function convertDatesToUnixFormat(start_date, end_date) {
 }
 
 export function getMillis(dateString) {
-  reactotron.log('getMillis', dateString);
   return moment(dateString).valueOf();
 }
 
@@ -73,8 +71,6 @@ export function convertFirestoreObjectToFoodItemModal(foodItemQueryResult) {
     }
     sections[dateInMillis].push(data);
   }
-
-  reactotron.log({sections});
 
   const foodItemModals = [];
   const sortedDates = Object.keys(sections).sort((a, b) => b - a);

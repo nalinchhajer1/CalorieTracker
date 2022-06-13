@@ -5,7 +5,6 @@ import FoodItemList from './FoodItemList';
 import FoodCalendarList from './FoodCalendarList';
 import SettingsScreen from './SettingsScreen';
 import {Strings} from '../redux/CalorieTrackerConstants';
-import reactotron from 'reactotron-react-native';
 import {connect} from 'react-redux';
 import AdminDashboardView from '../../admin/view/AdminDashboardView';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -13,7 +12,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = ({user_moderator}) => {
-  reactotron.log('render:TabNavigation');
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

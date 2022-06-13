@@ -2,7 +2,6 @@ import React from 'react';
 import {Alert, SectionList, Text, TouchableOpacity, View} from 'react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {MAX_CALORIE_LIMIT, Strings} from '../redux/CalorieTrackerConstants';
-import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {Ionicons} from '@expo/vector-icons';
 import {deleteFoodItem} from '../redux/CalorieTrackerAction';
@@ -19,7 +18,6 @@ const FoodSectionList = ({
   if (!isValidElement(section_data)) {
     return null;
   }
-  reactotron.log('render:FoodSectionList');
 
   return (
     <SectionList
@@ -104,7 +102,6 @@ export const FoodListItem = ({
 };
 
 const HeaderItem = ({section}) => {
-  reactotron.log('render:HeaderItem');
   return (
     <View style={FoodSectionListStyles.foodSectionItemContainer}>
       <Text style={FoodSectionListStyles.sectionText}>{section.title}</Text>

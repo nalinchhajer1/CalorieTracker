@@ -5,8 +5,8 @@ import {
   FlatList,
   SafeAreaView,
   TextInput,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';
@@ -18,7 +18,6 @@ import {
 } from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {FoodListItem} from './FoodSectionList';
-import reactotron from 'reactotron-react-native';
 import FoodImageContainer from './FoodImageContainer';
 import {Ionicons} from '@expo/vector-icons';
 
@@ -81,8 +80,6 @@ const AddFoodItemView = ({
     userText,
   ]);
 
-  reactotron.log('render:AddFoodItemView');
-
   const onDoneButtonPressed = useCallback(() => {
     onUserFinish();
     if (imageUploading !== true) {
@@ -96,7 +93,7 @@ const AddFoodItemView = ({
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{padding: 6}}>
-          <Ionicons name={'close'} size={30} color={'back'} />
+          <Ionicons name={'close'} size={30} color={'black'} />
         </TouchableOpacity>
       ),
       headerRight: () => (

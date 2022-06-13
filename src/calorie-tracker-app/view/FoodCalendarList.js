@@ -3,7 +3,6 @@ import {CalendarList} from 'react-native-calendars';
 import {View} from 'react-native';
 import CalendarListStyles from './styles/CalendarListStyles';
 import {getCurrentDate} from '../redux/CalorieTrackerConstants';
-import reactotron from 'reactotron-react-native';
 import {findCalorieBurnout} from '../redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import FoodSectionList from './FoodSectionList';
@@ -15,7 +14,6 @@ const FoodCalendarList = ({
   calorieList,
   currentDate = getCurrentDate(),
 }) => {
-  reactotron.log('render:FoodCalendarList');
   return (
     <View styles={CalendarListStyles.container}>
       <FoodSectionList
@@ -141,7 +139,6 @@ class DateRangePicker extends React.Component {
   };
 
   render() {
-    reactotron.log('render:DateRangePicker', this.state.markedDates);
     return (
       <CalendarList
         {...this.props}

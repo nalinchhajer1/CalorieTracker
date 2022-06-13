@@ -11,7 +11,6 @@ import firestore from '@react-native-firebase/firestore';
 import {FIREBASE_CONSTANTS} from '../../auth/redux/LoginConstants';
 import CalendarListStyles from './styles/CalendarListStyles';
 import FoodSectionList from './FoodSectionList';
-import reactotron from 'reactotron-react-native';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {Ionicons} from '@expo/vector-icons';
 
@@ -44,9 +43,7 @@ const FoodItemList = ({
       });
     // Stop listening for updates when no longer required
     return () => subscriber();
-  }, [loggedInUserId]);
-
-  reactotron.log('render:FoodItemList');
+  }, [loggedInUserId, onReceiveSnapshotUpdate]);
 
   return (
     <View style={FoodItemStyles.container}>

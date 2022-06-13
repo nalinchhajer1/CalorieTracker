@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import AdminDashboardStyles, {
   sectionChartPadding,
 } from './styles/AdminDashboardStyles';
@@ -11,11 +11,10 @@ import {
   Line,
   VerticalAxis,
 } from 'react-native-responsive-linechart';
-import reactotron from 'reactotron-react-native';
 import {isValidElement} from '../../auth/redux/LoginConstants';
+import {Ionicons} from '@expo/vector-icons';
 
 const AdminDashboardView = ({getAdminAnalyticsData, navigation, chartData}) => {
-  reactotron.log('render:AdminDashboardView');
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAdminAnalyticsData();
@@ -24,6 +23,18 @@ const AdminDashboardView = ({getAdminAnalyticsData, navigation, chartData}) => {
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [getAdminAnalyticsData, navigation]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AdminList')}
+          style={{padding: 6, marginRight: 10}}>
+          <Ionicons name={'list'} size={30} color={'tomato'} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <View style={AdminDashboardStyles.container}>
@@ -48,7 +59,6 @@ const AdminDashboardView = ({getAdminAnalyticsData, navigation, chartData}) => {
 };
 
 const ChartView = ({heading, xDates, newData, oldData}) => {
-  reactotron.log('render:ChartView');
   if (
     !isValidElement(xDates) ||
     !isValidElement(newData) ||
@@ -87,7 +97,6 @@ const ChartView = ({heading, xDates, newData, oldData}) => {
       let _yMax = maxYFound + 0.1 * maxYFound;
       return [_xTickValues, _newChartData, _oldChartData, _xMax, _yMin, _yMax];
     }, [newData, oldData]);
-  reactotron.log({xTickValues, newChartData, oldChartData, xMax, yMin, yMax});
   return (
     <View style={AdminDashboardStyles.sectionParentContainer}>
       <Text style={AdminDashboardStyles.sectionText}>{heading}</Text>

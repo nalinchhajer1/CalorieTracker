@@ -8,6 +8,7 @@ import {Strings} from '../redux/CalorieTrackerConstants';
 import reactotron from 'reactotron-react-native';
 import {connect} from 'react-redux';
 import AdminDashboardView from '../../admin/view/AdminDashboardView';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,6 +64,8 @@ const TabNavigation = ({user_moderator}) => {
     </Tab.Navigator>
   );
 };
+
+const AdminStack = createNativeStackNavigator();
 
 const mapStateToProps = state => ({
   user_moderator: state.loginState.user_moderator,

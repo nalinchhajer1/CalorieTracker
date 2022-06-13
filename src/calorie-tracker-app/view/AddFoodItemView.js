@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TextInput,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {foodItemPayload, Strings} from '../redux/CalorieTrackerConstants';
@@ -19,6 +20,7 @@ import {connect} from 'react-redux';
 import {FoodListItem} from './FoodSectionList';
 import reactotron from 'reactotron-react-native';
 import FoodImageContainer from './FoodImageContainer';
+import {Ionicons} from '@expo/vector-icons';
 
 let validCalorie = new RegExp(/^\d*$/);
 
@@ -90,6 +92,13 @@ const AddFoodItemView = ({
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{padding: 6}}>
+          <Ionicons name={'close'} size={30} color={'back'} />
+        </TouchableOpacity>
+      ),
       headerRight: () => (
         <Button title={Strings.DONE} onPress={onDoneButtonPressed} />
       ),

@@ -32,7 +32,8 @@ export function convertDatesToUnixFormat(start_date, end_date) {
 }
 
 export function getMillis(dateString) {
-  return new Date(dateString).getTime();
+  reactotron.log('getMillis', dateString);
+  return moment(dateString).valueOf();
 }
 
 export function getDateInUserDisplayFormat(timeInMillis) {

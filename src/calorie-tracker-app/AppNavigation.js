@@ -27,13 +27,14 @@ const RootStackScreen = ({appInitialized, userState}) => {
               options={{headerShown: false}}
               component={TabNavigation}
             />
+          </RootStack.Group>
+          <RootStack.Group screenOptions={{presentation: 'modal'}}>
             <RootStack.Screen
               name={Strings.CREATE}
               component={AddFoodItemView}
             />
             <RootStack.Screen name={Strings.Edit} component={AddFoodItemView} />
           </RootStack.Group>
-          <RootStack.Group screenOptions={{presentation: 'modal'}} />
         </>
       ) : (
         <RootStack.Screen name="Login" component={LoginScreen} />

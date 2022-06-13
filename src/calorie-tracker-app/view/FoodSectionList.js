@@ -10,7 +10,11 @@ import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
-const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
+const FoodSectionList = ({
+  section_data = [],
+  deleteFoodItem,
+  ListHeaderComponent,
+}) => {
   const navigation = useNavigation();
   if (!isValidElement(section_data)) {
     return null;
@@ -21,6 +25,7 @@ const FoodSectionList = ({section_data = [], deleteFoodItem}) => {
     <SectionList
       sections={section_data}
       keyExtractor={(item, index) => item._path}
+      ListHeaderComponent={ListHeaderComponent}
       renderItem={section => (
         <FoodListItem
           data={section.item}

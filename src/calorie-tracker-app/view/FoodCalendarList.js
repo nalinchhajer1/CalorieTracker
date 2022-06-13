@@ -18,19 +18,21 @@ const FoodCalendarList = ({
   reactotron.log('render:FoodCalendarList');
   return (
     <View styles={CalendarListStyles.container}>
-      <DateRangePicker
-        style={{
-          borderWidth: 1,
-          borderColor: 'gray',
-          height: 320,
-        }}
-        maxDate={currentDate}
-        initialRange={[currentDate, currentDate]}
-        onSuccess={(s, e) => findCalorieBurnout(s, e)}
-      />
       <FoodSectionList
         style={CalendarListStyles.listContainer}
         section_data={calorieList}
+        ListHeaderComponent={
+          <DateRangePicker
+            style={{
+              borderWidth: 1,
+              borderColor: 'gray',
+              height: 320,
+            }}
+            maxDate={currentDate}
+            initialRange={[currentDate, currentDate]}
+            onSuccess={(s, e) => findCalorieBurnout(s, e)}
+          />
+        }
       />
     </View>
   );

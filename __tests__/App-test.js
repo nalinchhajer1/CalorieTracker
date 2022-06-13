@@ -13,16 +13,15 @@ import {appInitialized} from '../src/calorie-tracker-app/redux/CalorieTrackerAct
 import {TYPE_CALORIE_TRACKER} from '../src/calorie-tracker-app/redux/CalorieTrackerTypes';
 import {
   DAY_DATE_FORMAT,
+  generateRandomFoodItem,
   getCurrentDate,
   getFormattedDay,
   getMillis,
 } from '../src/calorie-tracker-app/redux/CalorieTrackerConstants';
 import moment from 'moment-timezone';
 import {setUpAutoComplete} from '../src/calorie-tracker-app/redux/CalorieTrackerSaga';
-import {
-  getAnalyticsDateQuery,
-  getDateForChartDisplay,
-} from '../src/admin/redux/AdminConstants';
+import {getDateForChartDisplay} from '../src/admin/redux/AdminConstants';
+import {AutocompleteTrie} from '../src/calorie-tracker-app/utils/AutocompleteTrie';
 
 it('renders correctly', () => {
   renderer.create(<App />);
@@ -70,5 +69,12 @@ describe('check app core', () => {
     expect(getDateForChartDisplay('2022-06-02')).toEqual('02 Jun');
     expect(getDateForChartDisplay('2022-06-01', '02 Jun')).toEqual('01');
     expect(getDateForChartDisplay('2022-05-31', '02 Jun')).toEqual('31 May');
+  });
+
+  test('generateRandomFoodItem', () => {
+    const nutritionData = require('../nutrition_trim.json');
+    let autoCompleteTrie = new AutocompleteTrie();
+    autoCompleteTrie.setRoot(nutritionData);
+    expect(generateRandomFoodItem(10, '1bc', autoCompleteTrie)).toEqual([]);
   });
 });

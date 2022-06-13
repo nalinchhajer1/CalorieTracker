@@ -1,3 +1,5 @@
+import {isValidElement} from '../../auth/redux/LoginConstants';
+
 const WORD_INDICATOR = '*';
 
 /**
@@ -128,5 +130,21 @@ export class AutocompleteTrie {
     } else {
       return true;
     }
+  }
+
+  _randomText() {
+    let pointer = this.root;
+    let charPattern = '';
+    // Finding pattern k level deep
+    for (let i = 0; i < 3; i++) {
+      const keys = Object.keys(pointer);
+      const randomKey = keys[(Math.random() * keys.length) | 0];
+      charPattern += randomKey;
+      pointer = pointer[randomKey];
+      if (!isValidElement(pointer)) {
+        break;
+      }
+    }
+    return this.autoComplete(charPattern)[0];
   }
 }

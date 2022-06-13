@@ -101,3 +101,9 @@ export const onUpdateFoodItemCompleted = (data, newData) => {
     newData,
   };
 };
+
+export const randomFoodItemGenerator = () => {
+  return {
+    type: TYPE_CALORIE_TRACKER.RANDOM_FOOD_ITEM_GENERATOR,
+  };
+};

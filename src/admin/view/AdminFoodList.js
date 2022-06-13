@@ -11,20 +11,17 @@ import {deleteFoodItem} from '../../calorie-tracker-app/redux/CalorieTrackerActi
 import {connect} from 'react-redux';
 import {Strings} from '../../calorie-tracker-app/redux/CalorieTrackerConstants';
 
-const foodCollection = firestore().collection(
-  FIREBASE_CONSTANTS.FOOD_COLLECTION,
-);
-
 function LoadData(lastDocument, setLastDocument, foodData, setFoodData) {
   if (this.fetching_from_server === true) {
     return;
   }
-  let query = foodCollection.orderBy('createdAt', 'desc'); // sort the data
+  let query = firestore()
+    .collection(FIREBASE_CONSTANTS.FOOD_COLLECTION)
+    .orderBy('createdAt', 'desc'); // sort the data
   if (isValidElement(lastDocument)) {
     query = query.startAfter(lastDocument); // fetch data following the last document accessed
   }
 
-  reactotron.log('fetching result for ', lastDocument);
   this.fetching_from_server = true;
   query
     .limit(20) // limit to your page size, 3 is just an example
@@ -33,7 +30,6 @@ function LoadData(lastDocument, setLastDocument, foodData, setFoodData) {
       if (querySnapshot.docs.length > 0) {
         setLastDocument(querySnapshot.docs[querySnapshot.docs.length - 1]);
         MakeUserData(querySnapshot.docs, foodData, setFoodData);
-        reactotron.log('success');
       }
       this.fetching_from_server = false;
     })
@@ -56,7 +52,6 @@ const AdminFoodList = ({deleteFoodItem, navigation}) => {
   const [foodData, setFoodData] = useState([]);
 
   useEffect(() => {
-    reactotron.log('useEffect', LoadData.fetching_from_server);
     LoadData(lastDocument, setLastDocument, foodData, setFoodData);
   }, [foodData, lastDocument]);
 
@@ -100,7 +95,6 @@ const AdminFoodList = ({deleteFoodItem, navigation}) => {
           />
         )}
         onEndReached={() => {
-          reactotron.log('onEndReached', LoadData.fetching_from_server);
           LoadData(lastDocument, setLastDocument, foodData, setFoodData);
         }}
         onEndReachedThreshold={0.3}

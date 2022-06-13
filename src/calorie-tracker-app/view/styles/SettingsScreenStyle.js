@@ -4,12 +4,12 @@ const SettingsScreenStyle = {
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
   },
   logoutButton: {
-    width: 200,
     backgroundColor: 'white',
     marginTop: 50,
+    marginLeft: 10,
+    marginRight: 10,
     justifyContent: 'center',
     flexDirection: 'row',
   },
@@ -17,6 +17,21 @@ const SettingsScreenStyle = {
     fontSize: 20,
     padding: 10,
     color: 'tomato',
+  },
+  developeroptionContainer: {
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    flexDirection: 'column',
+  },
+  developeroptionText: {
+    fontSize: 14,
+  },
+  developerOptionButton: {
+    marginTop: 10,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 };
 

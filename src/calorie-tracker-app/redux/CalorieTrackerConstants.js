@@ -157,3 +157,28 @@ export function performLocalUpdateForFoodItem(calorieList, data, newData) {
   }
   return calorieList;
 }
+
+export function generateRandomFoodItem(
+  totalItem,
+  loggedInUserId,
+  autoCompleteTrie,
+) {
+  const outputArray = [];
+  for (let i = 0; i < totalItem; i++) {
+    const payload = foodItemPayload(
+      getDate((Math.random() * 14) | 0),
+      autoCompleteTrie._randomText()['1'],
+      (Math.random() * 1000) | 0,
+      loggedInUserId,
+      null,
+    );
+    outputArray.push(payload);
+  }
+  return outputArray;
+}
+
+function getDate(subtractDate) {
+  return moment()
+    .subtract(subtractDate - 1, 'days')
+    .toDate();
+}

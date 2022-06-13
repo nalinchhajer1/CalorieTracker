@@ -18,6 +18,8 @@ import reactotron from 'reactotron-react-native';
 import {
   convertDatesToUnixFormat,
   convertFirestoreObjectToFoodItemModal,
+  foodItemPayload,
+  generateRandomFoodItem,
 } from './CalorieTrackerConstants';
 import {
   autoCompleteInitializeCompleted,
@@ -29,6 +31,7 @@ import {
 } from './CalorieTrackerAction';
 import {AutocompleteTrie} from '../utils/AutocompleteTrie';
 import {downloadUserDetails} from '../../auth/redux/LoginSaga';
+import moment from 'moment-timezone';
 
 let autoCompleteTrie = null;
 
@@ -212,6 +215,28 @@ function* performAutoCompleteText(action) {
   }
 }
 
+function* randomFoodItemGeneratorSaga(action) {
+  try {
+    const totalItem = 10;
+    const loggedInUserId = yield select(
+      state => state.loginState.loggedInUserId,
+    );
+    const randomFoodItem = generateRandomFoodItem(
+      totalItem,
+      loggedInUserId,
+      autoCompleteTrie,
+    );
+    for (let i = 0; i < randomFoodItem.length; i++) {
+      yield fork(addFoodItem, {
+        type: TYPE_CALORIE_TRACKER.ADD_NEW_FOOD_ITEM,
+        payload: randomFoodItem[i],
+      });
+    }
+  } catch (e) {
+    reactotron.log(e.toString());
+  }
+}
+
 function* CalorieTrackerSaga() {
   yield all([
     takeLeading(TYPE_CALORIE_TRACKER.APP_INITIALIZED, onAppInitialized),
@@ -238,6 +263,10 @@ function* CalorieTrackerSaga() {
       onReceiveSnapshotUpdate,
     ),
     takeEvery(TYPE_CALORIE_TRACKER.UPDATE_FOOD_ITEM, updateFoodItemSaga),
+    takeLatest(
+      TYPE_CALORIE_TRACKER.RANDOM_FOOD_ITEM_GENERATOR,
+      randomFoodItemGeneratorSaga,
+    ),
   ]);
 }
 

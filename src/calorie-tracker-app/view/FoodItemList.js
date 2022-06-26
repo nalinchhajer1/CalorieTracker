@@ -25,12 +25,11 @@ const FoodItemList = ({
     findCalorieBurnout(getCurrentDate(), getCurrentDate());
   }, [findCalorieBurnout]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       findCalorieBurnout(getCurrentDate(), getCurrentDate());
     });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [findCalorieBurnout, navigation]);
 

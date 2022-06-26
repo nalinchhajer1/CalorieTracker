@@ -26,6 +26,7 @@ const RootStackScreen = ({appInitialized, userState}) => {
               options={{headerShown: false}}
               component={TabNavigation}
             />
+            {/*Add modetator check*/}
             <RootStack.Screen name="AdminList" component={AdminFoodList} />
           </RootStack.Group>
           <RootStack.Group screenOptions={{presentation: 'modal'}}>

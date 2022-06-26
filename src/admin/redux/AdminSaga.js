@@ -7,7 +7,7 @@ import {
   getChartDataFromAnalyticsFirebase,
 } from './AdminConstants';
 import {updateAnalyticsData} from './AdminAction';
-import reactotron from 'reactotron-react-native';
+import reactotron from '../../../ReactotronConfig';
 
 function* getAdminAnalyticsData() {
   try {

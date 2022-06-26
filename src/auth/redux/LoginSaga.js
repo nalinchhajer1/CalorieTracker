@@ -14,9 +14,9 @@ import {
   updateUserDetail,
 } from './LoginAction';
 import auth from '@react-native-firebase/auth';
-import reactotron from 'reactotron-react-native';
 import firestore from '@react-native-firebase/firestore';
 import {userItemPayload} from '../../calorie-tracker-app/redux/CalorieTrackerConstants';
+import reactotron from '../../../ReactotronConfig';
 
 function* onGoogleSignInConfiguration() {
   GoogleSignin.configure({

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import AdminDashboardStyles, {
   sectionChartPadding,
@@ -13,9 +13,10 @@ import {
 } from 'react-native-responsive-linechart';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {Ionicons} from '@expo/vector-icons';
+import useLayoutEffect from 'react-native-web/dist/modules/useLayoutEffect';
 
 const AdminDashboardView = ({getAdminAnalyticsData, navigation, chartData}) => {
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getAdminAnalyticsData();
     });
@@ -24,7 +25,7 @@ const AdminDashboardView = ({getAdminAnalyticsData, navigation, chartData}) => {
     return unsubscribe;
   }, [getAdminAnalyticsData, navigation]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity

@@ -5,11 +5,11 @@ import {
   isValidElement,
 } from '../../auth/redux/LoginConstants';
 import firestore from '@react-native-firebase/firestore';
-import reactotron from 'reactotron-react-native';
 import {FoodListItem} from '../../calorie-tracker-app/view/FoodSectionList';
 import {deleteFoodItem} from '../../calorie-tracker-app/redux/CalorieTrackerAction';
 import {connect} from 'react-redux';
 import {Strings} from '../../calorie-tracker-app/redux/CalorieTrackerConstants';
+import reactotron from '../../../ReactotronConfig';
 
 function LoadData(lastDocument, setLastDocument, foodData, setFoodData) {
   if (this.fetching_from_server === true) {

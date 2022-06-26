@@ -14,7 +14,6 @@ import {
   FIREBASE_CONSTANTS,
   isValidElement,
 } from '../../auth/redux/LoginConstants';
-import reactotron from 'reactotron-react-native';
 import {
   convertDatesToUnixFormat,
   convertFirestoreObjectToFoodItemModal,
@@ -32,6 +31,7 @@ import {
 import {AutocompleteTrie} from '../utils/AutocompleteTrie';
 import {downloadUserDetails} from '../../auth/redux/LoginSaga';
 import moment from 'moment-timezone';
+import reactotron from '../../../ReactotronConfig';
 
 let autoCompleteTrie = null;
 

@@ -5,15 +5,12 @@ import {MAX_CALORIE_LIMIT, Strings} from '../redux/CalorieTrackerConstants';
 import {isValidElement} from '../../auth/redux/LoginConstants';
 import {Ionicons} from '@expo/vector-icons';
 import {deleteFoodItem} from '../redux/CalorieTrackerAction';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
+import {CTImage} from '../../auth/view/CTImage';
 
-const FoodSectionList = ({
-  section_data = [],
-  deleteFoodItem,
-  ListHeaderComponent,
-}) => {
+const FoodSectionList = ({section_data = [], ListHeaderComponent}) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   if (!isValidElement(section_data)) {
     return null;
@@ -35,7 +32,7 @@ const FoodSectionList = ({
               {
                 text: 'Yes',
                 onPress: () => {
-                  deleteFoodItem(data);
+                  dispatch(deleteFoodItem(data));
                 },
               },
               {
@@ -70,7 +67,7 @@ export const FoodListItem = ({
         isValidElement(onItemClick) && onItemClick(data);
       }}>
       {image ? (
-        <FastImage
+        <CTImage
           style={FoodSectionListStyles.foodImageStyle}
           source={{uri: image}}
         />
@@ -115,9 +112,4 @@ const HeaderItem = ({section}) => {
   );
 };
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {
-  deleteFoodItem,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(FoodSectionList);
+export default FoodSectionList;

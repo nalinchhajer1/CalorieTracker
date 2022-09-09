@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import FoodItemStyles from './styles/FoodItemStyles';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   findCalorieBurnout,
   onReceiveSnapshotUpdate,
@@ -14,35 +14,31 @@ import FoodSectionList from './FoodSectionList';
 import FoodSectionListStyles from './styles/FoodSectionListStyles';
 import {Ionicons} from '@expo/vector-icons';
 
-const FoodItemList = ({
-  findCalorieBurnout,
-  navigation,
-  loggedInUserId,
-  calorieList,
-  onReceiveSnapshotUpdate,
-}) => {
-  useEffect(() => {
-    findCalorieBurnout(getCurrentDate(), getCurrentDate());
-  }, [findCalorieBurnout]);
+const FoodItemList = ({navigation}) => {
+  const dispatch = useDispatch();
+  const loggedInUserId = useSelector(state => state.loginState.loggedInUserId);
+  const calorieList = useSelector(
+    state => state.calorieTrackerState.calorieList,
+  );
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      findCalorieBurnout(getCurrentDate(), getCurrentDate());
+      dispatch(findCalorieBurnout(getCurrentDate(), getCurrentDate()));
     });
 
     return unsubscribe;
-  }, [findCalorieBurnout, navigation]);
+  }, [dispatch, navigation]);
 
   useEffect(() => {
     const subscriber = firestore()
       .collection(FIREBASE_CONSTANTS.FOOD_COLLECTION)
       .where(FIREBASE_CONSTANTS.FIELD_USER, '==', loggedInUserId)
       .onSnapshot(documentSnapshot => {
-        onReceiveSnapshotUpdate(documentSnapshot);
+        dispatch(onReceiveSnapshotUpdate(documentSnapshot));
       });
     // Stop listening for updates when no longer required
     return () => subscriber();
-  }, [loggedInUserId, onReceiveSnapshotUpdate]);
+  }, [dispatch, loggedInUserId]);
 
   return (
     <View style={FoodItemStyles.container}>
@@ -71,13 +67,4 @@ const FoodItemList = ({
   );
 };
 
-const mapStateToProps = state => ({
-  loggedInUserId: state.loginState.loggedInUserId,
-  calorieList: state.calorieTrackerState.calorieList,
-});
-
-const mapDispatchToProps = {
-  findCalorieBurnout,
-  onReceiveSnapshotUpdate,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(FoodItemList);
+export default FoodItemList;

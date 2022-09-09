@@ -1,13 +1,6 @@
 import {all, call, fork, put, select, takeLatest} from 'redux-saga/effects';
 import {TYPE_LOGIN} from './LoginType';
-import {
-  FIREBASE_CONSTANTS,
-  GOOGLE_SIGN_IN_SCOPES,
-  GOOGLE_WEB_CLIENT_ID,
-  isValidElement,
-  LOGIN_TYPE,
-} from './LoginConstants';
-import {GoogleSignin} from '@react-native-community/google-signin';
+import {FIREBASE_CONSTANTS, isValidElement, LOGIN_TYPE} from './LoginConstants';
 import {
   changeLoginState,
   setLoggedInUserId,
@@ -18,18 +11,9 @@ import firestore from '@react-native-firebase/firestore';
 import {userItemPayload} from '../../calorie-tracker-app/redux/CalorieTrackerConstants';
 import reactotron from '../../../ReactotronConfig';
 
-function* onGoogleSignInConfiguration() {
-  GoogleSignin.configure({
-    scopes: [GOOGLE_SIGN_IN_SCOPES.EMAIL, GOOGLE_SIGN_IN_SCOPES.PROFILE],
-    webClientId: GOOGLE_WEB_CLIENT_ID,
-  });
-}
-
-function* onGoogleLoginPressed() {
+function* registerUserUsingGoogle(action) {
   try {
-    yield call(GoogleSignin.hasPlayServices);
-    yield call(GoogleSignin.signIn);
-    const result = yield call(performGoogleLogin);
+    const result = yield call(performGoogleLogin, action.payload);
     if (result) {
       yield call(onSigninSuccess, result);
       yield put(setLoggedInUserId(result.user.uid));
@@ -41,9 +25,9 @@ function* onGoogleLoginPressed() {
   }
 }
 
-function* performGoogleLogin() {
+function* performGoogleLogin(action) {
   try {
-    const {idToken, accessToken} = yield call(GoogleSignin.getTokens);
+    const {idToken, accessToken} = action;
     const googleCredential = auth.GoogleAuthProvider.credential(
       idToken,
       accessToken,
@@ -106,11 +90,7 @@ function* onLogoutRequestSaga() {
 
 function* LoginSaga() {
   yield all([
-    takeLatest(
-      TYPE_LOGIN.ON_GOOGLE_LOGIN_CONFIGURATION,
-      onGoogleSignInConfiguration,
-    ),
-    takeLatest(TYPE_LOGIN.ON_GOOGLE_LOGIN_PRESS, onGoogleLoginPressed),
+    takeLatest(TYPE_LOGIN.ON_GOOGLE_LOGIN_PRESS, registerUserUsingGoogle),
     takeLatest(TYPE_LOGIN.ON_LOGOUT_REQUEST, onLogoutRequestSaga),
   ]);
 }

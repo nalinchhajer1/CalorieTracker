@@ -5,7 +5,7 @@ import AddFoodItemStyles from './styles/AddFoodItemStyles';
 import {Ionicons} from '@expo/vector-icons';
 import storage from '@react-native-firebase/storage';
 import {connect} from 'react-redux';
-import FastImage from 'react-native-fast-image';
+import {CTImage} from '../../auth/view/CTImage';
 
 const FoodImageContainer = ({
   loggedInUserId,
@@ -99,7 +99,7 @@ const FoodImageContainer = ({
       style={AddFoodItemStyles.imageContainer}
       onPress={selectPhotoTapped}>
       {image !== null ? (
-        <FastImage
+        <CTImage
           source={{uri: image.uri}}
           style={AddFoodItemStyles.imageDisplay}
           opacity={uploading ? 0.2 : 1}

@@ -1,12 +1,6 @@
 import {TYPE_LOGIN} from './LoginType';
 
-export const onLoginScreenLaunchGoogleLoginConfiguration = () => {
-  return {
-    type: TYPE_LOGIN.ON_GOOGLE_LOGIN_CONFIGURATION,
-  };
-};
-
-export const onPressGoogleLogin = payload => {
+export const registerUserUsingGoogleSignIn = payload => {
   return {
     type: TYPE_LOGIN.ON_GOOGLE_LOGIN_PRESS,
     payload: payload,
